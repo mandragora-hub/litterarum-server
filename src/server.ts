@@ -1,4 +1,4 @@
-import "./config/config";
+import "config/config";
 
 import express from "express";
 import { join } from "path";

@@ -2,3 +2,7 @@ node_modules
 dist
 data
 logs
+
+.env
+.local.env
+

@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import config from './default.json'
 
 const env = process.env.NODE_ENV || "dev";
