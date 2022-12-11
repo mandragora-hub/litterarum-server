@@ -1,13 +1,18 @@
 import { Response } from "express";
-import { HttpMessageHandler } from '~/types/common';
+import { HttpMessageHandler } from "~/types/common";
 
-type ResponseMessage = HttpMessageHandler & Partial<{
-  data: string
-}>
+type ResponseMessage = HttpMessageHandler &
+  Partial<{
+    data: string;
+  }>;
 
 const serverResponse = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  sendSuccess: (res: Response, message: HttpMessageHandler, data: any = null) => {
+  sendSuccess: (
+    res: Response,
+    message: HttpMessageHandler,
+    data: any = null
+  ) => {
     const responseMessage: ResponseMessage = {
       code: message.code ? message.code : 500,
       success: message.success,

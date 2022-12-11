@@ -12,7 +12,7 @@ export default function connect(app: Express) {
     mongoose.Promise = global.Promise;
 
     // Set `strictQuery` to `false` to prepare for the change, suppress warning messages
-    mongoose.set('strictQuery', false);
+    mongoose.set("strictQuery", false);
 
     console.log("MongoDB connection with retry");
     mongoose
@@ -22,7 +22,10 @@ export default function connect(app: Express) {
         app.emit("ready");
       })
       .catch((err) => {
-        logger.error("MongoDB connection unsuccessful, retry after 2 seconds.", err);
+        logger.error(
+          "MongoDB connection unsuccessful, retry after 2 seconds.",
+          err
+        );
         setTimeout(connectWithRetry, 2000);
       });
   };

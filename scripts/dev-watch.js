@@ -1,7 +1,7 @@
 const concurrently = require("concurrently");
 const { result } = concurrently(
   [
-    { command: "npm:watch:ts", name: "tsc", prefixColor: "blue.bold"},
+    { command: "npm:watch:ts", name: "tsc", prefixColor: "blue.bold" },
     {
       command: "npm:watch:ts-alias",
       name: "ts-alias",

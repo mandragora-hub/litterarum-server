@@ -1,17 +1,11 @@
 {
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "plugins": ["@typescript-eslint"],
   "root": true,
-  "ignorePatterns": [
-    "node_modules",
-    "dist",
-    "logs",
-    "scripts"
-  ]
+  "ignorePatterns": ["node_modules", "dist", "logs", "scripts"]
 }
