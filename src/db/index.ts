@@ -1,5 +1,6 @@
 import mongoose, { ConnectOptions } from "mongoose";
 import { Express } from "express";
+import logger from "~/utils/helpers/logger";
 
 export default function connect(app: Express) {
   const options: ConnectOptions = {
@@ -9,7 +10,7 @@ export default function connect(app: Express) {
 
   const connectWithRetry = () => {
     mongoose.Promise = global.Promise;
-    
+
     // Set `strictQuery` to `false` to prepare for the change, suppress warning messages
     mongoose.set('strictQuery', false);
 
@@ -17,11 +18,11 @@ export default function connect(app: Express) {
     mongoose
       .connect(process.env.MONGODB_URI, options)
       .then(() => {
-        console.log("MongoDB is connected");
+        logger.info("MongoDB is connected");
         app.emit("ready");
       })
       .catch((err) => {
-        console.log("MongoDB connection unsuccessful, retry after 2 seconds.", err);
+        logger.error("MongoDB connection unsuccessful, retry after 2 seconds.", err);
         setTimeout(connectWithRetry, 2000);
       });
   };

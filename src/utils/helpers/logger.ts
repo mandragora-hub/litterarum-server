@@ -1,11 +1,30 @@
-import path from 'path';
-import SimpleNodeLogger from 'simple-node-logger'
-const filename = path.join(__dirname, '../../logs/project.log');
+import winston from 'winston';
 
-// you can change format according to you
-const logger = SimpleNodeLogger.createSimpleLogger({
-    logFilePath: filename,
-    timestampFormat: 'YYYY-MM-DD HH:mm:ss'
-}
-);
-export default logger;
+const options = {
+    file: {
+        level: 'http',
+        filename: '~/../logs/app.log',
+        json: true,
+        handleExceptions: true,
+        maxsize: 5242880, // 5MB
+        maxFiles: 5,
+        colorize: false,
+    },
+    console: {
+        level: 'debug',
+        handleExceptions: true,
+    },
+};
+
+
+
+const logger = winston.createLogger({
+    levels: winston.config.npm.levels,
+    transports: [
+        new winston.transports.File(options.file),
+        new winston.transports.Console(options.console)
+    ],
+    exitOnError: false
+})
+
+export default logger
