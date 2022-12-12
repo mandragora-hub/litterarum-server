@@ -14,7 +14,7 @@ export default function connect(app: Express) {
     // Set `strictQuery` to `false` to prepare for the change, suppress warning messages
     mongoose.set("strictQuery", false);
 
-    console.log("MongoDB connection with retry");
+    logger.info("MongoDB connection with retry");
     mongoose
       .connect(process.env.MONGODB_URI, options)
       .then(() => {

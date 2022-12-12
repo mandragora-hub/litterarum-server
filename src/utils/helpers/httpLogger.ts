@@ -5,10 +5,7 @@ const httpLogger = morgan(
   ":remote-addr :method :url :status :res[content-length] - :response-time ms",
   {
     stream: {
-      write: (message) => {
-        console.log(message);
-        return logger.http(message);
-      },
+      write: (message) => logger.http(message),
     },
   }
 );

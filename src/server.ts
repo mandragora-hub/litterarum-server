@@ -10,9 +10,9 @@ import connect from "./db";
 import setupRoute from "./routes";
 
 const app = express();
+app.use(httpLogger);
 
 connect(app); // connection from db here
-app.use(httpLogger);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
