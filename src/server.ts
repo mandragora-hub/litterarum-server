@@ -7,7 +7,7 @@ import ErrorHandler from "~/utils/errorHandler";
 import { join } from "path";
 import cors from "cors";
 import connect from "./db";
-import setupRoute from "./routes";
+import v1RouterTodos from "./v1/routes/todos";
 
 const app = express();
 app.use(httpLogger);
@@ -19,15 +19,26 @@ app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
-//  adding routes
-setupRoute(app);
+app.use("/api/v1/todos", v1RouterTodos);
 
-app.use(ErrorHandler.logError);
-app.use(ErrorHandler.sendError);
+app.use(ErrorHandler.middleware);
+process.on("unhandledRejection", (error) => {
+  throw error;
+});
+
+process.on("uncaughtException", (error) => {
+  logger.error(error);
+
+  if (!ErrorHandler.isOperationalError(error)) {
+    return process.exit(1);
+  }
+});
 
 app.on("ready", () => {
-  app.listen(3000, () => {
-    logger.info("Express.js listening on http://localhost:3000/.");
+  app.listen(process.env.PORT, () => {
+    logger.info(
+      `⚡️[server]: Server is running at http://localhost:${process.env.PORT}`
+    );
   });
 });
 
