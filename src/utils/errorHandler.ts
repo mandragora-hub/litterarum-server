@@ -18,7 +18,7 @@ function middleware(err, _req: Request, res: Response, _next: NextFunction) {
   if (isApi404Error(err))
     return res
       .status(err.statusCode)
-      .send({ status: "FAILED", message: err.description });
+      .send({ code: err.statusCode, status: "FAILED", message: err.message });
 
   return res.status(INTERNAL_SERVER_ERROR.code).send(INTERNAL_SERVER_ERROR);
 }
