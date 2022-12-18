@@ -8,6 +8,7 @@ import { join } from "path";
 import cors from "cors";
 import connect from "./db";
 import v1RouterTodos from "./v1/routes/todos";
+import v1RouterFiles from "./v1/routes/files";
 import helmet from "helmet";
 import hpp from "hpp";
 
@@ -25,8 +26,8 @@ app.use(cors());
 app.use(helmet());
 app.use(hpp());
 
-
 app.use("/api/v1/todos", v1RouterTodos);
+app.use("/api/v1/files", v1RouterFiles);
 
 app.use(ErrorHandler.middleware);
 process.on("unhandledRejection", (error) => {
