@@ -20,6 +20,11 @@ function middleware(err, _req: Request, res: Response, _next: NextFunction) {
       .status(err.statusCode)
       .send({ code: err.statusCode, status: "FAILED", message: err.message });
 
+  if (isHttpException(err))
+    return res
+      .status(err.statusCode)
+      .send({ code: err.statusCode, status: "FAILED", message: err.message });
+
   return res.status(INTERNAL_SERVER_ERROR.code).send(INTERNAL_SERVER_ERROR);
 }
 
@@ -36,6 +41,10 @@ function isCastError(error) {
 
 function isApi404Error(error) {
   return error instanceof Api404Error;
+}
+
+function isHttpException(error) {
+  return error instanceof HttpException;
 }
 
 export default {
