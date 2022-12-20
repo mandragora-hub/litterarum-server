@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import serverResponses from "~/utils/helpers/responses";
 import messages from "~/config/messages";
-import { Todo } from "~/models/todos/todo";
+import { Todo } from "~/models/todo";
 import Api404Error from "~/utils/api404Error";
 
 const createNewTodos = (req: Request, res: Response, next: NextFunction) => {
