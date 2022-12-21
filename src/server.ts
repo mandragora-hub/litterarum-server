@@ -21,8 +21,9 @@ app.use(httpLogger);
 
 connect(app); // connection from db here
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+const bodyOptions = { limit: "10mb" };
+app.use(express.json(bodyOptions));
+app.use(express.urlencoded({ ...bodyOptions, extended: false }));
 app.use(express.static(join(__dirname, "public")));
 
 /* Security middleware configs */
