@@ -13,8 +13,10 @@ export const authorSchema = new Schema<IAuthor>({
   name: {
     type: String,
     required: true,
+    index: true,
+    unique: true,
   },
   biography: String,
-  photoUrl: String
+  photoUrl: String,
 });
 export const Author = model("Author", authorSchema);

@@ -4,7 +4,7 @@ import logger from "~/utils/helpers/logger";
 
 export default function connect(app: Express) {
   const options: ConnectOptions = {
-    autoIndex: false, // Don't build indexes
+    autoIndex: true, // https://dev.to/akshatsinghania/mongoose-unique-not-working-16bf
     maxPoolSize: 10, // Maintain up to 10 socket connections
   };
 

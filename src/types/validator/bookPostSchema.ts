@@ -1,23 +1,14 @@
 import { JSONSchemaType } from "ajv";
+import { IBaseBook } from "~/models/book";
 
-interface IBookPost {
-  title: string;
-  basename: string;
-  downloaded?: number;
-  authorId: string;
-  tagsId?: string[];
-}
-
-const bookPostSchema: JSONSchemaType<IBookPost> = {
+const bookPostSchema: JSONSchemaType<IBaseBook> = {
   type: "object",
   properties: {
     title: { type: "string" },
     basename: { type: "string" },
-    downloaded: { type: "integer", nullable: true },
-    authorId: { type: "string" },
-    tagsId: { type: "array", nullable: true, items: { type: "string" } },
+    downloaded: { type: "integer", nullable: true, default: 0 },
   },
-  required: ["title", "basename", "authorId"],
+  required: ["title", "basename"],
   additionalProperties: false,
 };
 

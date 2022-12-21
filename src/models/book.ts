@@ -2,17 +2,19 @@ import { model, Schema, Types } from "mongoose";
 import { IAuthor } from "./author";
 import { ISysTag } from "./sysTag";
 
-export interface IBook {
+export interface IBaseBook {
   title: string;
   basename: string;
-  downloaded: number;
-  author: IAuthor;
-  tags: ISysTag[];
+  downloaded?: number;
 }
 
+export interface IBook extends IBaseBook {
+  author?: IAuthor;
+  tags?: ISysTag[];
+}
 
 // Set `trim: true` on every string path by default
-Schema.Types.String.set('trim', true);
+Schema.Types.String.set("trim", true);
 
 export const bookSchema = new Schema<IBook>({
   title: {
@@ -25,12 +27,11 @@ export const bookSchema = new Schema<IBook>({
   },
   downloaded: {
     type: Number,
-    default: 0
+    default: 0,
   },
   author: {
     type: Types.ObjectId,
     ref: "Author",
-    required: true,
   },
   tags: [
     {
