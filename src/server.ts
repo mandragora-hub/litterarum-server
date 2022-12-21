@@ -12,6 +12,7 @@ import v1RouterFiles from "./v1/routes/files";
 import v1RouterAuthors from "./v1/routes/authors";
 import v1RouterBooks from "./v1/routes/books";
 import v1RouterTags from "./v1/routes/tags";
+import v1RouterBatch from "./v1/routes/batch";
 import helmet from "helmet";
 import hpp from "hpp";
 
@@ -34,6 +35,7 @@ app.use("/api/v1/files", v1RouterFiles);
 app.use("/api/v1/authors", v1RouterAuthors);
 app.use("/api/v1/books", v1RouterBooks);
 app.use("/api/v1/tags", v1RouterTags);
+app.use("/api/v1/batch", v1RouterBatch);
 
 app.use(ErrorHandler.middleware);
 process.on("unhandledRejection", (error) => {
