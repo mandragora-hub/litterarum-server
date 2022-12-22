@@ -1,6 +1,6 @@
 import express from "express";
 import validateBody from "~/middleware/validateBody";
-import { bookPostSchema, authorPostSchema } from "~/types/validator";
+import { bookPostSchema, authorPostSchema } from "~/utils/validator";
 import { findAll, findOne, create, update, remove, addAuthor } from "~/controllers/books";
 
 const router = express.Router();

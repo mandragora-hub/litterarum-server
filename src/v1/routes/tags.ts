@@ -1,6 +1,6 @@
 import express from "express";
 import validateBody from "~/middleware/validateBody";
-import { tagPostSchema } from "~/types/validator";
+import { tagPostSchema } from "~/utils/validator";
 import { findAll, findOne, create, remove, update } from "~/controllers/tags";
 
 const router = express.Router();

@@ -1,7 +1,7 @@
 import express from "express";
 import { findAll, findOne, create, update, remove } from "~/controllers/author";
 import validateBody from "~/middleware/validateBody";
-import { authorPostSchema } from "~/types/validator";
+import { authorPostSchema } from "~/utils/validator";
 
 const router = express.Router();
 

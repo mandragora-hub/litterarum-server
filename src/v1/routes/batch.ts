@@ -1,7 +1,7 @@
 import express from "express";
 import { Model } from "mongoose";
 import { Request, Response, NextFunction } from "express";
-import { tagPostSchema, authorPostSchema } from "~/types/validator";
+import { tagPostSchema, authorPostSchema } from "~/utils/validator";
 import validateBatch from "~/middleware/validateBatch";
 import { Author, SysTag } from "~/models";
 import serverResponses from "~/utils/helpers/responses";
