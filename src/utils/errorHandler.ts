@@ -6,28 +6,23 @@ import { Request, Response, NextFunction } from "express";
 import HttpException from "./httpException";
 import logger from "./helpers/logger";
 import mongoose from "mongoose";
-import Api404Error from "./api404Error";
-import ValidationError from "./validationError";
 import httpMessage from "~/config/messages";
 
 function middleware(err, _req: Request, res: Response, _next: NextFunction) {
   logger.error(err.message);
-
   const { BAD_REQUEST, INTERNAL_SERVER_ERROR } = httpMessage;
-  if (isCastError(err) || isValidationError(err))
-    return res.status(BAD_REQUEST.code).send(BAD_REQUEST);
 
-  if (isApi404Error(err))
-    return res
-      .status(err.statusCode)
-      .send({ code: err.statusCode, status: "FAILED", message: err.message });
+  try {
+    if (isCastError(err)) return res.status(BAD_REQUEST.code).send(BAD_REQUEST);
 
-  if (isHttpException(err))
-    return res
-      .status(err.statusCode)
-      .send({ code: err.statusCode, status: "FAILED", message: err.message });
+    if (err.name == "Api404Error") handleHttpException(res, err);
+    if (err.name == "ValidationError") handleHttpException(res, err);
+    if (err.name == "HttpException") handleHttpException(res, err);
 
-  return res.status(INTERNAL_SERVER_ERROR.code).send(INTERNAL_SERVER_ERROR);
+    if (err.code && err.code == 11000) handleDuplicateKeyError(res, err);
+  } catch {
+    return res.status(INTERNAL_SERVER_ERROR.code).send(INTERNAL_SERVER_ERROR);
+  }
 }
 
 function isOperationalError(error) {
@@ -41,25 +36,21 @@ function isCastError(error) {
   return error instanceof mongoose.Error.CastError;
 }
 
-function isApi404Error(error) {
-  return error instanceof Api404Error;
+function handleHttpException(res: Response, err: HttpException) {
+  return res
+    .status(err.statusCode)
+    .send({ code: err.statusCode, status: "FAILED", message: err.message });
 }
 
-function isHttpException(error) {
-  return error instanceof HttpException;
+function handleDuplicateKeyError(res: Response, err: HttpException) {
+  const { BAD_REQUEST } = httpMessage;
+  return res
+    .status(BAD_REQUEST.code)
+    .send({ code: BAD_REQUEST.code, status: "FAILED", message: err.message });
 }
-
-function isValidationError(error) {
-  return error instanceof mongoose.Error;
-}
-
-// function isValidationError(error) {
-//   return error instanceof ValidationError;
-// }
 
 export default {
   middleware,
   isOperationalError,
   isCastError,
-  isApi404Error,
 };

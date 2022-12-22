@@ -20,7 +20,6 @@ const create = (
       serverResponses.sendSuccess(res, messages.SUCCESSFUL, result);
     })
     .catch((err) => {
-      console.log(err);
       next(err);
     });
 };
