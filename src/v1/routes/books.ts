@@ -1,7 +1,19 @@
 import express from "express";
-import validateBody from "~/middleware/validateBody";
-import { bookPostSchema, authorPostSchema } from "~/utils/validator";
-import { findAll, findOne, create, update, remove, addAuthor } from "~/controllers/books";
+import { validateBody, validateBatch } from "~/middleware";
+import {
+  bookPostSchema,
+  authorPostSchema,
+  tagPostSchema,
+} from "~/utils/validator";
+import {
+  findAll,
+  findOne,
+  create,
+  update,
+  remove,
+  addAuthor,
+  addTags,
+} from "~/controllers/books";
 
 const router = express.Router();
 
@@ -11,7 +23,6 @@ router.post("/", validateBody(bookPostSchema), create);
 router.put("/:id", validateBody(bookPostSchema), update);
 router.delete("/:id", remove);
 router.post("/:id/author", validateBody(authorPostSchema), addAuthor);
-// router.post("/:id/author", validateBody(authorPostSchema), addTags);
-
+router.post("/:id/tags", validateBatch(tagPostSchema), addTags);
 
 export default router;

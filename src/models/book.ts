@@ -20,6 +20,8 @@ export const bookSchema = new Schema<IBook>({
   title: {
     type: String,
     required: true,
+    index: true,
+    unique: true
   },
   basename: {
     type: String,

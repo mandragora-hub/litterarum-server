@@ -9,6 +9,8 @@ export const sysTagSchema = new Schema<ISysTag>({
   tag: {
     type: String,
     required: true,
+    index: true,
+    unique: true,
   },
 });
 export const SysTag = model("Tag", sysTagSchema);

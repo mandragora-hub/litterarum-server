@@ -3,8 +3,8 @@ import serverResponses from "~/utils/helpers/responses";
 import messages from "~/config/messages";
 import Api404Error from "~/utils/api404Error";
 import { Book } from "~/models/book";
-import { Author } from "~/models/author";
-// import { SysTag } from "~/models/sysTag";
+import { Author, IAuthor } from "~/models/author";
+import { SysTag, ISysTag } from "~/models/sysTag";
 
 const findAll = (req: Request, res: Response, next: NextFunction) => {
   Book.find({}, { __v: 0 })
@@ -34,7 +34,7 @@ const create = async (
 };
 
 const addAuthor = async (
-  req: Request<{ id: string }>,
+  req: Request<{ id: string }, object, Partial<IAuthor>>,
   res: Response,
   next: NextFunction
 ) => {
@@ -55,6 +55,43 @@ const addAuthor = async (
     }
 
     serverResponses.sendSuccess(res, messages.SUCCESSFUL, book);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const addTags = async (
+  req: Request<{ id: string }, object, ISysTag[]>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    if (!book) {
+      throw new Api404Error(`book with id: ${req.params.id} not found.`);
+    }
+
+    // check if tag already exist in book
+    const newTags = req.body.map(({ tag: newTag }) =>
+      book.tags?.find((tag) => tag.tag === newTag)
+    );
+
+    if (!newTags) return serverResponses.sendSuccess(res, messages.SUCCESSFUL, "book");
+
+    // newTags.forEach(({ tag }) => {
+    //   type
+    // });
+
+    // const tags = req.body.map(({ tag }) => {
+    //   SysTag.findOne({ tag: tag }, (err, r) => {
+    //     if (!r) {
+    //       throw new Api404Error(`Tag -> ${tag} not found.`);
+    //     }
+    //     return r;
+    //   });
+    // });
+
+    serverResponses.sendSuccess(res, messages.SUCCESSFUL, "book");
   } catch (err) {
     next(err);
   }
@@ -155,4 +192,4 @@ const update = async (
   }
 };
 
-export { findAll, create, findOne, remove, update, addAuthor };
+export { findAll, create, findOne, remove, update, addAuthor, addTags };
