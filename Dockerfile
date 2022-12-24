@@ -1,31 +1,34 @@
-# syntax=docker/dockerfile:1.4
-
-FROM node:lts-buster-slim AS development
+FROM node:16.16.0 as base
 
 # Create app directory
 WORKDIR /usr/src/app
 
-COPY package.json /usr/src/app/package.json
-COPY package-lock.json /usr/src/app/package-lock.json
-RUN npm ci
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
 
-COPY . /usr/src/app
+# Install deps
+RUN npm i
+# If you are building your code for production
+# RUN npm ci --only=production
 
+# Bundle app source
+COPY . .
+
+# Build dist
+RUN npm run build
+
+# Start production image build
+FROM gcr.io/distroless/nodejs:16
+
+# Copy node modules and build directory
+COPY --from=base /usr/src/app/node_modules ./node_modules
+COPY --from=base /usr/src/app/dist ./dist
+
+# Copy static files
+# COPY src/public dist/src/public
+
+# Expose port 3000
 EXPOSE 3000
-
-CMD [ "npm", "run", "dev" ]
-
-FROM development as dev-envs
-RUN <<EOF
-apt-get update
-apt-get install -y --no-install-recommends git
-EOF
-
-RUN <<EOF
-useradd -s /bin/bash -m vscode
-groupadd docker
-usermod -aG docker vscode
-EOF
-# install Docker tools (cli, buildx, compose)
-COPY --from=gloursdocker/docker / /
-CMD [ "npm", "run", "dev" ]
+CMD ["dist/server.js"]
