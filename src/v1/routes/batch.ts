@@ -1,11 +1,12 @@
 import express from "express";
 import { Model } from "mongoose";
 import { Request, Response, NextFunction } from "express";
-import { tagPostSchema, authorPostSchema } from "~/utils/validator";
+import { tagPostSchema, authorPostSchema, bookPostSchema } from "~/utils/validator";
 import validateBatch from "~/middleware/validateBatch";
 import { Author, SysTag } from "~/models";
 import serverResponses from "~/utils/helpers/responses";
 import messages from "~/config/messages";
+import { createBatch as createBookBatch } from "~/controllers/books";
 
 const router = express.Router();
 
@@ -40,7 +41,12 @@ router.post(
   validateBatch(authorPostSchema),
   (req: Request, res: Response, next: NextFunction) => {
     insertMany<typeof Author, object>(Author, req.body, res, next);
-  }
+  })
+
+router.post(
+  "/books",
+  validateBatch(bookPostSchema),
+  createBookBatch
 );
 
 export default router;

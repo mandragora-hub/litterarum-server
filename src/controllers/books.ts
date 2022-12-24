@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import serverResponses from "~/utils/helpers/responses";
 import messages from "~/config/messages";
 import Api404Error from "~/utils/api404Error";
-import { Book } from "~/models/book";
+import { Book, IBook } from "~/models/book";
 import { Author, IAuthor } from "~/models/author";
 import { SysTag, ISysTag } from "~/models/sysTag";
 import getUniqueListBy from "~/utils/lib/getUniqueListBy";
@@ -94,6 +94,42 @@ const addTags = async (
   } catch (err) {
     next(err);
   }
+};
+
+const createBatch = async (
+  req: Request<{ id: string }, object, IBook[]>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const cleanBooks = getUniqueListBy<IBook>(req.body, 'title')
+
+    for (const book of cleanBooks) {
+      const newAuthor = book.author && await Author.findOneAndUpdate({ name: book.author.name }, book.author, { new: true, upsert: true })
+      const newSysTag: ISysTag[] = [];
+      if (book.tags) {
+        for (const e of book.tags) {
+          let sysTag = await SysTag.findOne({ tag: e.tag })
+          if (!sysTag) {
+            sysTag = await SysTag.create({ tag: e.tag });
+          }
+
+          newSysTag.push(sysTag);
+        }
+      }
+
+      await Book.findOneAndUpdate({ title: book.title }, {
+        ...book,
+        author: newAuthor,
+        tags: newSysTag
+      }, { new: true, upsert: true });
+
+    }
+    serverResponses.sendSuccess(res, messages.SUCCESSFUL);
+  } catch (err) {
+    next(err);
+  }
+
 };
 
 // const create = async (
@@ -191,4 +227,4 @@ const update = async (
   }
 };
 
-export { findAll, create, findOne, remove, update, addAuthor, addTags };
+export { findAll, create, findOne, remove, update, addAuthor, addTags, createBatch };

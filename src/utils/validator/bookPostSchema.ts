@@ -9,7 +9,7 @@ const bookPostSchema: JSONSchemaType<IBaseBook> = {
     downloaded: { type: "integer", nullable: true, default: 0 },
   },
   required: ["title", "basename"],
-  additionalProperties: false,
+  additionalProperties: true,
 };
 
 export default bookPostSchema;
