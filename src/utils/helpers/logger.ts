@@ -1,4 +1,6 @@
 import winston from "winston";
+import { noSpecialChars } from "../lib/noSpecialChars";
+import { removeLineBreak } from "../lib/removeLineBreak";
 
 const timestampOptions = { format: "YYYY-MM-DD HH:mm:ss:ms" };
 
@@ -6,15 +8,15 @@ const consoleFormat = winston.format.combine(
   winston.format.timestamp(timestampOptions),
   winston.format.colorize({ all: true }),
   winston.format.printf(
-    (info) => `${info.timestamp} level: ${info.level}: message: ${info.message}`
-  )
+    (info) => `${info.timestamp} level: ${info.level}: message: ${removeLineBreak(info.message)}`
+  ),
 );
 
 const defaultFormat = winston.format.combine(
   winston.format.timestamp(timestampOptions),
   winston.format.printf(
     (info) =>
-      `{"timestamp": "${info.timestamp}", "level": "${info.level}", "message": "${info.message}"}`
+      `{"timestamp": "${info.timestamp}", "level": "${info.level}", "message": "${noSpecialChars(removeLineBreak(info.message))}"}`
   )
 );
 
@@ -22,6 +24,7 @@ const transports = [
   // Allow the use the console to print the messages
   new winston.transports.Console({
     format: consoleFormat,
+    level: "http",
   }),
   // Allow to print all the error level messages inside the error.log file
   new winston.transports.File({
@@ -35,6 +38,7 @@ const transports = [
     handleExceptions: true,
     maxsize: 5242880, // 5MB
     maxFiles: 5,
+    level: "http",
   }),
 ];
 
