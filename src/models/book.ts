@@ -38,6 +38,8 @@ export const bookSchema = new Schema<IBook>({
   tags: [
     {
       type: Types.ObjectId,
+      index: true,
+      unique: true,
       ref: "Tag",
     },
   ],

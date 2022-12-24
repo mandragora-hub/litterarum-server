@@ -5,6 +5,7 @@ import Api404Error from "~/utils/api404Error";
 import { Book } from "~/models/book";
 import { Author, IAuthor } from "~/models/author";
 import { SysTag, ISysTag } from "~/models/sysTag";
+import getUniqueListBy from "~/utils/lib/getUniqueListBy";
 
 const findAll = (req: Request, res: Response, next: NextFunction) => {
   Book.find({}, { __v: 0 })
@@ -65,33 +66,31 @@ const addTags = async (
   res: Response,
   next: NextFunction
 ) => {
+
   try {
+    // Remove duplicates
+    const cleanTags = getUniqueListBy<ISysTag>(req.body, 'tag')
+
     const book = await Book.findById(req.params.id);
     if (!book) {
       throw new Api404Error(`book with id: ${req.params.id} not found.`);
     }
 
-    // check if tag already exist in book
-    const newTags = req.body.map(({ tag: newTag }) =>
-      book.tags?.find((tag) => tag.tag === newTag)
-    );
+    const newSysTag: ISysTag[] = [];
+    for (const e of cleanTags) {
+      let sysTag = await SysTag.findOne({ tag: e.tag })
+      if (!sysTag) {
+        sysTag = await SysTag.create({ tag: e.tag });
+      }
 
-    if (!newTags) return serverResponses.sendSuccess(res, messages.SUCCESSFUL, "book");
+      newSysTag.push(sysTag);
+    }
 
-    // newTags.forEach(({ tag }) => {
-    //   type
-    // });
+    book.tags = newSysTag
+    await book.save();
 
-    // const tags = req.body.map(({ tag }) => {
-    //   SysTag.findOne({ tag: tag }, (err, r) => {
-    //     if (!r) {
-    //       throw new Api404Error(`Tag -> ${tag} not found.`);
-    //     }
-    //     return r;
-    //   });
-    // });
 
-    serverResponses.sendSuccess(res, messages.SUCCESSFUL, "book");
+    serverResponses.sendSuccess(res, messages.SUCCESSFUL, book);
   } catch (err) {
     next(err);
   }
