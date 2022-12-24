@@ -13,6 +13,7 @@ import v1RouterAuthors from "./v1/routes/authors";
 import v1RouterBooks from "./v1/routes/books";
 import v1RouterTags from "./v1/routes/tags";
 import v1RouterBatch from "./v1/routes/batch";
+import v1RouterHealthCheck from "./v1/routes/healthcheck"
 import helmet from "helmet";
 import hpp from "hpp";
 
@@ -37,6 +38,8 @@ app.use("/api/v1/authors", v1RouterAuthors);
 app.use("/api/v1/books", v1RouterBooks);
 app.use("/api/v1/tags", v1RouterTags);
 app.use("/api/v1/batch", v1RouterBatch);
+app.use("/api/v1/healthcheck", v1RouterHealthCheck);
+
 
 app.use(ErrorHandler.middleware);
 process.on("unhandledRejection", (error) => {
@@ -52,11 +55,19 @@ process.on("uncaughtException", (error) => {
 });
 
 app.on("ready", () => {
-  app.listen(process.env.PORT, () => {
+  const server = app.listen(process.env.PORT, () => {
     logger.info(
       `⚡️[server]: Server is running at http://localhost:${process.env.PORT}`
     );
   });
+
+  // Graceful Shutdown
+  process.on('SIGTERM', () => {
+    logger.debug('SIGTERM signal received: closing HTTP server')
+    server.close(() => {
+      logger.debug('HTTP server closed')
+    })
+  })
 });
 
 export default app;
