@@ -5,6 +5,7 @@ const authorPostSchema: JSONSchemaType<IAuthor> = {
   type: "object",
   properties: {
     name: { type: "string" },
+    alias: { type: "string", nullable: true },
     biography: { type: "string", nullable: true },
     photoUrl: { type: "string", nullable: true },
   },

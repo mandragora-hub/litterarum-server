@@ -2,6 +2,7 @@ import { model, Schema } from "mongoose";
 
 export interface IAuthor {
   name: string;
+  alias?: string;
   biography?: string;
   photoUrl?: string;
 }
@@ -16,6 +17,7 @@ export const authorSchema = new Schema<IAuthor>({
     index: true,
     unique: true,
   },
+  alias: String,
   biography: String,
   photoUrl: String,
 });
