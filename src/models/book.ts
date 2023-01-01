@@ -6,6 +6,7 @@ export interface IBaseBook {
   title: string;
   basename: string;
   downloaded?: number;
+  coverUrl?: string;
 }
 
 export interface IBook extends IBaseBook {
@@ -30,6 +31,9 @@ export const bookSchema = new Schema<IBook>({
   downloaded: {
     type: Number,
     default: 0,
+  },
+  coverUrl: {
+    type: String
   },
   author: {
     type: Types.ObjectId,
