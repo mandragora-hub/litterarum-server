@@ -60,15 +60,16 @@ rename -v 'y/A-Z/a-z/' *.pdf    # Convert Uppercase Characters
 
 ### Recommended lectures
 
-<https://www.elastic.io/integration-best-practices/nodejs-as-pid-1-under-docker-images/>
+- <https://www.elastic.io/integration-best-practices/nodejs-as-pid-1-under-docker-images/>
+- <https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design/>
 
 ### Pages and book sources
 
-<https://nobispacem.com/materias/descargas-gratuitas>
-<https://ww2.lectulandia.com/>
-<https://biblioteca.org.ar/libros/>
-<https://www.imprentanacional.go.cr/editorialdigital/default.aspx>
-<https://www.filosofia.org/>
-<https://ministeriodeeducacion.gob.do/sobre-nosotros/areas-institucionales/biblioteca-virtual/ensayo?page=6>
-<https://www.insumisos.com/index.php/mtbidi>
-<https://www.insumisos.com/M4T3R14L/BD/Einstein-Albert/Por%20que%20socialismo.PDF>
+- <https://nobispacem.com/materias/descargas-gratuitas>
+- <https://ww2.lectulandia.com/>
+- <https://biblioteca.org.ar/libros/>
+- <https://www.imprentanacional.go.cr/editorialdigital/default.aspx>
+- <https://www.filosofia.org/>
+- <https://ministeriodeeducacion.gob.do/sobre-nosotros/areas-institucionales/biblioteca-virtual/ensayo?page=6>
+- <https://www.insumisos.com/index.php/mtbidi>
+- <https://www.insumisos.com/M4T3R14L/BD/Einstein-Albert/Por%20que%20socialismo.PDF>
