@@ -8,6 +8,10 @@ import { Book } from "~/models/book";
 // import getUniqueListBy from "~/utils/lib/getUniqueListBy";
 import type { KeysetPagination, RequestQuery } from "~/types/common";
 
+const DEFAULT_LIMIT = 7;
+const DEFAULT_SORT = "title";
+const DEFAULT_ORDER = "asc";
+
 const books = async (
   req: RequestQuery<KeysetPagination>,
   res: Response,
@@ -17,9 +21,9 @@ const books = async (
     const {
       q,
       page = 1,
-      limit = 1,
-      order = "asc",
-      sort = "title",
+      limit = DEFAULT_LIMIT,
+      order = DEFAULT_ORDER,
+      sort = DEFAULT_SORT,
     } = req.query;
     const books = await Book.find({
       ...(q ? { title: { $regex: q, $options: "i" } } : {}),
