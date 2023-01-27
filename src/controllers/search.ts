@@ -28,6 +28,7 @@ const books = async (
     const books = await Book.find({
       ...(q ? { title: { $regex: q, $options: "i" } } : {}),
     })
+      .populate(["author", "tags"])
       .limit(limit)
       .skip((page - 1) * limit)
       .sort([[sort, order]])
