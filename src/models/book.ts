@@ -17,34 +17,37 @@ export interface IBook extends IBaseBook {
 // Set `trim: true` on every string path by default
 Schema.Types.String.set("trim", true);
 
-export const bookSchema = new Schema<IBook>({
-  title: {
-    type: String,
-    required: true,
-    index: true,
-    unique: true
-  },
-  basename: {
-    type: String,
-    required: true,
-  },
-  downloaded: {
-    type: Number,
-    default: 0,
-  },
-  coverUrl: {
-    type: String
-  },
-  author: {
-    type: Types.ObjectId,
-    ref: "Author",
-  },
-  tags: [
-    {
-      type: Types.ObjectId,
+export const bookSchema = new Schema<IBook>(
+  {
+    title: {
+      type: String,
+      required: true,
       index: true,
-      ref: "Tag",
+      unique: true,
     },
-  ],
-});
+    basename: {
+      type: String,
+      required: true,
+    },
+    downloaded: {
+      type: Number,
+      default: 0,
+    },
+    coverUrl: {
+      type: String,
+    },
+    author: {
+      type: Types.ObjectId,
+      ref: "Author",
+    },
+    tags: [
+      {
+        type: Types.ObjectId,
+        index: true,
+        ref: "Tag",
+      },
+    ],
+  },
+  { timestamps: true }
+);
 export const Book = model("Book", bookSchema);

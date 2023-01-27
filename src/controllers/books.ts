@@ -6,6 +6,8 @@ import { Book, IBook } from "~/models/book";
 import { Author, IAuthor } from "~/models/author";
 import { SysTag, ISysTag } from "~/models/sysTag";
 import getUniqueListBy from "~/utils/lib/getUniqueListBy";
+import type { KeysetPagination, RequestQuery } from "~/types/common";
+import { books as searchBooks } from "./search";
 
 const findAll = (req: Request, res: Response, next: NextFunction) => {
   Book.find({}, { __v: 0 })
@@ -66,10 +68,9 @@ const addTags = async (
   res: Response,
   next: NextFunction
 ) => {
-
   try {
     // Remove duplicates
-    const cleanTags = getUniqueListBy<ISysTag>(req.body, 'tag')
+    const cleanTags = getUniqueListBy<ISysTag>(req.body, "tag");
 
     const book = await Book.findById(req.params.id);
     if (!book) {
@@ -78,7 +79,7 @@ const addTags = async (
 
     const newSysTag: ISysTag[] = [];
     for (const e of cleanTags) {
-      let sysTag = await SysTag.findOne({ tag: e.tag })
+      let sysTag = await SysTag.findOne({ tag: e.tag });
       if (!sysTag) {
         sysTag = await SysTag.create({ tag: e.tag });
       }
@@ -86,9 +87,8 @@ const addTags = async (
       newSysTag.push(sysTag);
     }
 
-    book.tags = newSysTag
+    book.tags = newSysTag;
     await book.save();
-
 
     serverResponses.sendSuccess(res, messages.SUCCESSFUL, book);
   } catch (err) {
@@ -102,14 +102,20 @@ const createBatch = async (
   next: NextFunction
 ) => {
   try {
-    const cleanBooks = getUniqueListBy<IBook>(req.body, 'title')
+    const cleanBooks = getUniqueListBy<IBook>(req.body, "title");
 
     for (const book of cleanBooks) {
-      const newAuthor = book.author && await Author.findOneAndUpdate({ name: book.author.name }, book.author, { new: true, upsert: true })
+      const newAuthor =
+        book.author &&
+        (await Author.findOneAndUpdate(
+          { name: book.author.name },
+          book.author,
+          { new: true, upsert: true }
+        ));
       const newSysTag: ISysTag[] = [];
       if (book.tags) {
         for (const e of book.tags) {
-          let sysTag = await SysTag.findOne({ tag: e.tag })
+          let sysTag = await SysTag.findOne({ tag: e.tag });
           if (!sysTag) {
             sysTag = await SysTag.create({ tag: e.tag });
           }
@@ -118,18 +124,20 @@ const createBatch = async (
         }
       }
 
-      await Book.findOneAndUpdate({ title: book.title }, {
-        ...book,
-        author: newAuthor,
-        tags: newSysTag
-      }, { new: true, upsert: true });
-
+      await Book.findOneAndUpdate(
+        { title: book.title },
+        {
+          ...book,
+          author: newAuthor,
+          tags: newSysTag,
+        },
+        { new: true, upsert: true }
+      );
     }
     serverResponses.sendSuccess(res, messages.SUCCESSFUL);
   } catch (err) {
     next(err);
   }
-
 };
 
 // const create = async (
@@ -227,4 +235,30 @@ const update = async (
   }
 };
 
-export { findAll, create, findOne, remove, update, addAuthor, addTags, createBatch };
+const latest = async (
+  req: RequestQuery<KeysetPagination>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Default value
+    req.query.sort = "title";
+    req.query.q = "";
+    
+    return searchBooks(req, res, next);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export {
+  findAll,
+  create,
+  findOne,
+  remove,
+  update,
+  addAuthor,
+  addTags,
+  createBatch,
+  latest,
+};

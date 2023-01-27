@@ -1,9 +1,11 @@
 import { Response } from "express";
 import { HttpMessageHandler } from "~/types/common";
 
+type MetaType = Record<string, string | number>;
 type ResponseMessage = HttpMessageHandler &
   Partial<{
     data: string;
+    meta: MetaType;
   }>;
 
 const serverResponse = {
@@ -11,16 +13,18 @@ const serverResponse = {
   sendSuccess: (
     res: Response,
     message: HttpMessageHandler,
-    data: any = null
+    data: any = null,
+    meta: MetaType | null = null
   ) => {
     const responseMessage: ResponseMessage = {
       code: message.code ? message.code : 500,
       success: message.success,
       message: message.message,
     };
-    if (data) {
-      responseMessage.data = data;
-    }
+
+    if (data) responseMessage.data = data;
+    if (meta) responseMessage.meta = meta;
+
     return res.status(message.code).json(responseMessage);
   },
   sendError: (res: Response, error: HttpMessageHandler) => {

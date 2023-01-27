@@ -8,6 +8,7 @@ import {
 import {
   findAll,
   findOne,
+  latest,
   create,
   update,
   remove,
@@ -18,6 +19,7 @@ import {
 const router = express.Router();
 
 router.get("/", findAll);
+router.get("/latest", latest);
 router.get("/:id", findOne);
 router.post("/", validateBody(bookPostSchema), create);
 router.put("/:id", validateBody(bookPostSchema), update);

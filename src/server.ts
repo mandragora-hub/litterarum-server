@@ -11,6 +11,7 @@ import v1RouterTodos from "./v1/routes/todos";
 import v1RouterFiles from "./v1/routes/files";
 import v1RouterAuthors from "./v1/routes/authors";
 import v1RouterBooks from "./v1/routes/books";
+import v1RouterSearch from "./v1/routes/search";
 import v1RouterTags from "./v1/routes/tags";
 import v1RouterBatch from "./v1/routes/batch";
 import v1RouterHealthCheck from "./v1/routes/healthcheck"
@@ -52,6 +53,7 @@ const authenticate = passport.authenticate('bearer', { session: false })
 // Setup routes 
 app.use("/api/v1/todos", v1RouterTodos);
 app.use("/api/v1/files", v1RouterFiles);
+app.use("/api/v1/search", authenticate, v1RouterSearch);
 app.use("/api/v1/authors", authenticate, v1RouterAuthors);
 app.use("/api/v1/books", authenticate, v1RouterBooks);
 app.use("/api/v1/tags", authenticate, v1RouterTags);
