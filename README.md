@@ -65,11 +65,12 @@ rename -v 'y/A-Z/a-z/' *.pdf    # Convert Uppercase Characters
 
 ### Pages and book sources
 
-- <https://nobispacem.com/materias/descargas-gratuitas>
-- <https://ww2.lectulandia.com/>
-- <https://biblioteca.org.ar/libros/>
-- <https://www.imprentanacional.go.cr/editorialdigital/default.aspx>
-- <https://www.filosofia.org/>
-- <https://ministeriodeeducacion.gob.do/sobre-nosotros/areas-institucionales/biblioteca-virtual/ensayo?page=6>
-- <https://www.insumisos.com/index.php/mtbidi>
-- <https://www.insumisos.com/M4T3R14L/BD/Einstein-Albert/Por%20que%20socialismo.PDF>
+<https://nobispacem.com/materias/descargas-gratuitas>
+<https://ww2.lectulandia.com/>
+<https://biblioteca.org.ar/libros/>
+<https://www.imprentanacional.go.cr/editorialdigital/default.aspx>
+<https://www.filosofia.org/>
+<https://ministeriodeeducacion.gob.do/sobre-nosotros/areas-institucionales/biblioteca-virtual/ensayo?page=6>
+<https://www.insumisos.com/index.php/mtbidi>
+<https://www.insumisos.com/M4T3R14L/BD/Einstein-Albert/Por%20que%20socialismo.PDF>
+<http://bdh.bne.es/bnesearch/CompleteSearch.do?fechaFdesde=&showYearItems=&advanced=&exact=&textH=&completeText=&text=&sort=&fechaFhasta=&accesotematico1=CIENCIAS+SOCIALES&accesotematico2=Sociedad&pageSize=1&pageSizeAbrv=30&pageNumber=7>
