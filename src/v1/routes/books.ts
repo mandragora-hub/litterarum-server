@@ -2,6 +2,7 @@ import express from "express";
 import { validateBody, validateBatch } from "~/middleware";
 import {
   bookPostSchema,
+  bookPutSchema,
   authorPostSchema,
   tagPostSchema,
 } from "~/utils/validator";
@@ -22,7 +23,7 @@ router.get("/", findAll);
 router.get("/latest", latest);
 router.get("/:id", findOne);
 router.post("/", validateBody(bookPostSchema), create);
-router.put("/:id", validateBody(bookPostSchema), update);
+router.put("/:id", validateBody(bookPutSchema), update);
 router.delete("/:id", remove);
 router.post("/:id/author", validateBody(authorPostSchema), addAuthor);
 router.post("/:id/tags", validateBatch(tagPostSchema), addTags);
