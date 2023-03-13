@@ -8,6 +8,7 @@ import { SysTag, ISysTag } from "~/models/sysTag";
 import getUniqueListBy from "~/utils/lib/getUniqueListBy";
 import type { KeysetPagination, RequestQuery } from "~/types/common";
 import { books as searchBooks } from "./search";
+import { download as downloadFile } from "./files";
 
 const findAll = (req: Request, res: Response, next: NextFunction) => {
   Book.find({}, { __v: 0 })
@@ -235,6 +236,26 @@ const update = async (
   }
 };
 
+const download = async (
+  req: Request<{ id: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    if (!book) {
+      throw new Api404Error(`book with id: ${req.params.id} not found.`);
+    }
+
+    // todo: increase downloaded property here
+    
+    req.params.id = book.basename;
+    return downloadFile(req, res, next);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const latest = async (
   req: RequestQuery<KeysetPagination>,
   res: Response,
@@ -244,7 +265,7 @@ const latest = async (
     // Default value
     req.query.sort = "title";
     req.query.q = "";
-    
+
     return searchBooks(req, res, next);
   } catch (err) {
     next(err);
@@ -261,4 +282,5 @@ export {
   addTags,
   createBatch,
   latest,
+  download,
 };
