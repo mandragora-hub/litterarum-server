@@ -1,0 +1,13 @@
+- Add description in books
+- Add cover attribute in books
+- Create cronjob that generates a backup of database. That mean save the data returned from find all books.
+- Add subtitle to books
+- add:
+    ISBN-10: 1285463242
+    ISBN-13: 9781285463247
+    Edición: 4ta Edición
+    Subtema: Álgebra Lineal
+    Archivo: eBook | Solucionario (Premium)
+    Idioma: eBook en Inglés
+    votes: 2
+    pages: 234
