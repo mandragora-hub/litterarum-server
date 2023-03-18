@@ -10,7 +10,7 @@ import type { KeysetPagination, RequestQuery } from "~/types/common";
 
 const DEFAULT_LIMIT = 7;
 const DEFAULT_SORT = "title";
-const DEFAULT_ORDER = "asc";
+const DEFAULT_ORDER = "desc";
 
 const books = async (
   req: RequestQuery<KeysetPagination>,
