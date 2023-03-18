@@ -6,11 +6,12 @@ const bookPostSchema: JSONSchemaType<IBaseBook> = {
   properties: {
     title: { type: "string" },
     basename: { type: "string" },
-    downloaded: { type: "integer", nullable: true, default: 0 },
+    downloaded: { type: "integer", default: 0 },
     coverUrl: { type: "string", nullable: true },
     readTime: { type: "number", nullable: true },
     wordCount: { type: "number", nullable: true },
     pages: { type: "number", nullable: true },
+    views: { type: "number", default: 0 },
   },
   required: ["title", "basename"],
   additionalProperties: true,

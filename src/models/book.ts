@@ -5,7 +5,8 @@ import { ISysTag } from "./sysTag";
 export interface IBaseBook {
   title: string;
   basename: string;
-  downloaded?: number;
+  downloaded: number;
+  views: number;
   coverUrl?: string;
   readTime?: number; // ?note: time in milliseconds
   wordCount?: number;
@@ -45,6 +46,10 @@ export const bookSchema = new Schema<IBook>(
       required: true,
     },
     downloaded: {
+      type: Number,
+      default: 0,
+    },
+    views: {
       type: Number,
       default: 0,
     },

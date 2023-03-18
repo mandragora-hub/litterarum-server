@@ -6,11 +6,12 @@ const bookPutSchema: JSONSchemaType<IBaseBook> = {
   properties: {
     title: { type: "string" },
     basename: { type: "string" },
-    downloaded: { type: "integer", nullable: true },
+    downloaded: { type: "integer" },
     coverUrl: { type: "string", nullable: true },
     readTime: { type: "number", nullable: true },
     wordCount: { type: "number", nullable: true },
     pages: { type: "number", nullable: true },
+    views: { type: "number" },
   },
   required: [],
   additionalProperties: true,
