@@ -33,7 +33,9 @@ const books = async (
       .skip((page - 1) * limit)
       .sort([[sort, order]])
       .exec();
-    const count = await Book.count();
+    const count = await Book.count({
+      ...(q ? { title: { $regex: q, $options: "i" } } : {}),
+    });
     serverResponses.sendSuccess(res, messages.SUCCESSFUL, books, {
       totalPages: Math.ceil(count / limit),
       currentPages: page,
