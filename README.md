@@ -58,10 +58,21 @@ rename -v 'y/ /\-/' *.pdf       # Replace space with hyphen
 rename -v 'y/A-Z/a-z/' *.pdf    # Convert Uppercase Characters
 ```
 
+### Copy collection to another database with docker
+
+```sh
+# create dumb
+docker exec litterarum-dev-db  sh -c 'exec mongodump -d TodoApp --archive' > ./all-collections.archive
+
+# restore  
+docker exec -i litterarum-dev-db  sh -c 'exec mongorestore --username root --password example --authenticationDatabase admin --nsInclude="TodoApp.*" --archive --archive' < ./all-collections.archive
+```
+
 ### Recommended lectures
 
 - <https://www.elastic.io/integration-best-practices/nodejs-as-pid-1-under-docker-images/>
 - <https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design/>
+- <https://davejansen.com/how-to-dump-restore-a-mongodb-database-from-a-docker-container/>
 
 ### Pages and book sources
 

@@ -1,4 +1,4 @@
-import "~/config/config";
+import "dotenv/config";
 
 import express from "express";
 import logger from "~/utils/helpers/logger";

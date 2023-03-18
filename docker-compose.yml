@@ -1,0 +1,43 @@
+version: '3.1'
+
+services:
+  server:
+    build: .
+    image: litterarum-server
+    container_name: litterarum-server
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      WEBDAV_USER: ${WEBDAV_USER}
+      WEBDAV_TOKEN: ${WEBDAV_TOKEN}
+      WEBDAV_BASE_URL: ${WEBDAV_BASE_URL}
+      WEBDAV_BASE_DIR: ${WEBDAV_BASE_DIR}
+      MONGODB_URI: ${MONGODB_URI}
+      PORT: ${PORT}
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    container_name: litterarum-dev-db
+    volumes:
+      - ./data:/data/db
+    ports:
+      - 27017:27017
+    # environment:
+      # MONGO_INITDB_DATABASE: TodoApp
+      # MONGO_INITDB_ROOT_USERNAME: root
+      # MONGO_INITDB_ROOT_PASSWORD: example
+
+  # mongo-express:
+  #   container_name: mongo-express
+  #   image: mongo-express
+  #   ports:
+  #     - 8081:8081
+  #   environment:
+  #     ME_CONFIG_MONGODB_ADMINUSERNAME: root
+  #     ME_CONFIG_MONGODB_ADMINPASSWORD: example
+  #     ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017
+  #   depends_on:
+  #     - mongo
+

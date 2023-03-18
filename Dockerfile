@@ -30,5 +30,9 @@ COPY --from=base /usr/src/app/dist ./dist
 # COPY src/public dist/src/public
 
 # Expose port 3000
+
+# Express best practices
+ENV NODE_ENV production
+
 EXPOSE 3000
 CMD ["dist/server.js"]
