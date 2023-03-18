@@ -1,3 +1,5 @@
+# syntax = docker/dockerfile:1.2
+
 FROM node:16.16.0 as base
 
 # Create app directory
