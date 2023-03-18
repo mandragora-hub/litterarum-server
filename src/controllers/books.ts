@@ -277,6 +277,38 @@ const latest = async (
   }
 };
 
+const trending = async (
+  req: RequestQuery<KeysetPagination>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Default value
+    req.query.sort = "downloaded";
+    req.query.q = "";
+
+    return searchBooks(req, res, next);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const popular = async (
+  req: RequestQuery<KeysetPagination>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Default value
+    req.query.sort = "views";
+    req.query.q = "";
+
+    return searchBooks(req, res, next);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export {
   findAll,
   create,
@@ -287,5 +319,7 @@ export {
   addTags,
   createBatch,
   latest,
+  trending,
+  popular,
   download,
 };

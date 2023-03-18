@@ -16,14 +16,16 @@ import {
   addAuthor,
   addTags,
   download,
+  trending,
+  popular
 } from "~/controllers/books";
 
 const router = express.Router();
 
 router.get("/", findAll);
 router.get("/latest", latest);
-// router.get("/trending", trending);
-// router.get("/popular", popular);
+router.get("/trending", trending);
+router.get("/popular", popular);
 // router.get("/top-rate", topRate);
 router.get("/:id", findOne);
 router.post("/", validateBody(bookPostSchema), create);
