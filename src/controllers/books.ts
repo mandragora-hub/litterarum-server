@@ -187,6 +187,10 @@ const findOne = async (
     if (!book) {
       throw new Api404Error(`book with id: ${req.params.id} not found.`);
     }
+    // * increase views count
+    book.views++;
+    book.save();
+
     serverResponses.sendSuccess(res, messages.SUCCESSFUL, book);
   } catch (err) {
     next(err);
@@ -246,9 +250,10 @@ const download = async (
     if (!book) {
       throw new Api404Error(`book with id: ${req.params.id} not found.`);
     }
+    // * increase downloaded property here
+    book.downloaded++;
+    book.save();
 
-    // todo: increase downloaded property here
-    
     req.params.id = book.basename;
     return downloadFile(req, res, next);
   } catch (err) {
