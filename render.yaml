@@ -1,0 +1,10 @@
+services:
+  # A Docker web service
+  - type: web
+    name: litterarum
+    env: docker
+    region: ohio 
+    healthCheckPath: /api/v1/healthcheck
+    envVars:
+      - fromGroup: litterarum-env
+    dockerfilePath: ./Render.Dockerfile 
