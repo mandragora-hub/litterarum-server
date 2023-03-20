@@ -7,3 +7,6 @@ seed
 .env
 .local.env
 
+coverage
+jest.config.js
+
