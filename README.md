@@ -19,29 +19,35 @@ mongosh ${CONN_URI} --file scripts/create-user.js
 npm i
 ```
 
-### Running
+### Running in local development
 
 ```sh
 npm run dev
 ```
 
-## Setup MongoDB with docker
+### Running with docker compose (recommended)
+
+```sh
+docker compose build && docker compose up
+```
+
+### Setup MongoDB with docker
 
 ```sh
 docker run --rm --name litterarum-dev-db -v data:/data/db -p 27017:27017 mongo
 ```
 
-## Run docker
+### Running standalone litterarum container
 
 ```sh
-# Build
+# Build image
 docker build -t litterarum-server:001 .
 
 # Run 
 docker run --rm --init --name litterarum-server --env-file='.env' litterarum-server:001
 ```
 
-## Normalize filename
+### Normalize filename
 
 According to good web practice
 
@@ -76,12 +82,12 @@ docker exec -i litterarum-dev-db  sh -c 'exec mongorestore --username root --pas
 
 ### Pages and book sources
 
-<https://nobispacem.com/materias/descargas-gratuitas>
-<https://ww2.lectulandia.com/>
-<https://biblioteca.org.ar/libros/>
-<https://www.imprentanacional.go.cr/editorialdigital/default.aspx>
-<https://www.filosofia.org/>
-<https://ministeriodeeducacion.gob.do/sobre-nosotros/areas-institucionales/biblioteca-virtual/ensayo?page=6>
-<https://www.insumisos.com/index.php/mtbidi>
-<https://www.insumisos.com/M4T3R14L/BD/Einstein-Albert/Por%20que%20socialismo.PDF>
-<http://bdh.bne.es/bnesearch/CompleteSearch.do?fechaFdesde=&showYearItems=&advanced=&exact=&textH=&completeText=&text=&sort=&fechaFhasta=&accesotematico1=CIENCIAS+SOCIALES&accesotematico2=Sociedad&pageSize=1&pageSizeAbrv=30&pageNumber=7>
+- <https://nobispacem.com/materias/descargas-gratuitas>
+- <https://ww2.lectulandia.com/>
+- <https://biblioteca.org.ar/libros/>
+- <https://www.imprentanacional.go.cr/editorialdigital/default.aspx>
+- <https://www.filosofia.org/>
+- <https://ministeriodeeducacion.gob.do/sobre-nosotros/areas-institucionales/biblioteca-virtual/ensayo?page=6>
+- <https://www.insumisos.com/index.php/mtbidi>
+- <https://www.insumisos.com/M4T3R14L/BD/Einstein-Albert/Por%20que%20socialismo.PDF>
+- <http://bdh.bne.es/bnesearch/CompleteSearch.do?fechaFdesde=&showYearItems=&advanced=&exact=&textH=&completeText=&text=&sort=&fechaFhasta=&accesotematico1=CIENCIAS+SOCIALES&accesotematico2=Sociedad&pageSize=1&pageSizeAbrv=30&pageNumber=7>
