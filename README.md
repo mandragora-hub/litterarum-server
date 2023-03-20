@@ -73,3 +73,4 @@ rename -v 'y/A-Z/a-z/' *.pdf    # Convert Uppercase Characters
 - <https://ministeriodeeducacion.gob.do/sobre-nosotros/areas-institucionales/biblioteca-virtual/ensayo?page=6>
 - <https://www.insumisos.com/index.php/mtbidi>
 - <https://www.insumisos.com/M4T3R14L/BD/Einstein-Albert/Por%20que%20socialismo.PDF>
+- <https://omegalfa.es/titulos.php?letra=g>
