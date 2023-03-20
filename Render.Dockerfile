@@ -1,3 +1,5 @@
+# syntax = docker/dockerfile:1.2
+
 FROM node:16.16.0 as base
 
 # Create app directory
@@ -33,6 +35,9 @@ COPY --from=base /usr/src/app/dist ./dist
 
 # Express best practices
 ENV NODE_ENV production
+
+# For deploy on render: https://render.com/docs/docker-secrets#secret-files-in-docker-builds
+RUN --mount=type=secret,id=_env,dst=/etc/secrets/.env cat /etc/secrets/.env
 
 EXPOSE 3000
 CMD ["dist/server.js"]

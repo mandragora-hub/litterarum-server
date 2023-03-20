@@ -5,13 +5,29 @@ import { ISysTag } from "./sysTag";
 export interface IBaseBook {
   title: string;
   basename: string;
-  downloaded?: number;
+  downloaded: number;
+  views: number;
   coverUrl?: string;
+  readTime?: number; // ?note: time in milliseconds
+  wordCount?: number;
+  pages?: number;
+}
+
+export interface Metadata {
+  title: string;
+  author: string;
+  subject: string;
+  creator: string;
+  keywords: string;
+  producer: string;
+  creationDate: Date;
+  modificationDate: Date;
 }
 
 export interface IBook extends IBaseBook {
   author?: IAuthor;
   tags?: ISysTag[];
+  metadata?: Partial<Metadata>;
 }
 
 // Set `trim: true` on every string path by default
@@ -33,8 +49,23 @@ export const bookSchema = new Schema<IBook>(
       type: Number,
       default: 0,
     },
-    coverUrl: {
-      type: String,
+    views: {
+      type: Number,
+      default: 0,
+    },
+    coverUrl: String,
+    readTime: Number,
+    wordCount: Number,
+    pages: Number,
+    metadata: {
+      title: String,
+      author: String,
+      subject: String,
+      creator: String,
+      keywords: String,
+      producer: String,
+      creationDate: Date,
+      modificationDate: Date,
     },
     author: {
       type: Types.ObjectId,

@@ -8,6 +8,7 @@ import { SysTag, ISysTag } from "~/models/sysTag";
 import getUniqueListBy from "~/utils/lib/getUniqueListBy";
 import type { KeysetPagination, RequestQuery } from "~/types/common";
 import { books as searchBooks } from "./search";
+import { download as downloadFile } from "./files";
 
 const findAll = (req: Request, res: Response, next: NextFunction) => {
   Book.find({}, { __v: 0 })
@@ -186,6 +187,10 @@ const findOne = async (
     if (!book) {
       throw new Api404Error(`book with id: ${req.params.id} not found.`);
     }
+    // * increase views count
+    book.views++;
+    book.save();
+
     serverResponses.sendSuccess(res, messages.SUCCESSFUL, book);
   } catch (err) {
     next(err);
@@ -235,6 +240,27 @@ const update = async (
   }
 };
 
+const download = async (
+  req: Request<{ id: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    if (!book) {
+      throw new Api404Error(`book with id: ${req.params.id} not found.`);
+    }
+    // * increase downloaded property here
+    book.downloaded++;
+    book.save();
+
+    req.params.id = book.basename;
+    return downloadFile(req, res, next);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const latest = async (
   req: RequestQuery<KeysetPagination>,
   res: Response,
@@ -244,7 +270,39 @@ const latest = async (
     // Default value
     req.query.sort = "title";
     req.query.q = "";
-    
+
+    return searchBooks(req, res, next);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const trending = async (
+  req: RequestQuery<KeysetPagination>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Default value
+    req.query.sort = "downloaded";
+    req.query.q = "";
+
+    return searchBooks(req, res, next);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const popular = async (
+  req: RequestQuery<KeysetPagination>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Default value
+    req.query.sort = "views";
+    req.query.q = "";
+
     return searchBooks(req, res, next);
   } catch (err) {
     next(err);
@@ -261,4 +319,7 @@ export {
   addTags,
   createBatch,
   latest,
+  trending,
+  popular,
+  download,
 };
