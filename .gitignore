@@ -8,5 +8,3 @@ seed
 .local.env
 
 coverage
-jest.config.js
-
