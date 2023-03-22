@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: dev-test-environment
     strategy:
       fail-fast: false
       matrix:
