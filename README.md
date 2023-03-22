@@ -82,13 +82,18 @@ docker exec -i litterarum-dev-db  sh -c 'exec mongorestore --username root --pas
 
 ### Pages and book sources
 
-- <https://nobispacem.com/materias/descargas-gratuitas>
-- <https://ww2.lectulandia.com/>
-- <https://biblioteca.org.ar/libros/>
-- <https://www.imprentanacional.go.cr/editorialdigital/default.aspx>
-- <https://www.filosofia.org/>
-- <https://ministeriodeeducacion.gob.do/sobre-nosotros/areas-institucionales/biblioteca-virtual/ensayo?page=6>
-- <https://www.insumisos.com/index.php/mtbidi>
-- <https://www.insumisos.com/M4T3R14L/BD/Einstein-Albert/Por%20que%20socialismo.PDF>
-- <https://omegalfa.es/titulos.php?letra=g>
-- <http://bdh.bne.es/bnesearch/CompleteSearch.do?fechaFdesde=&showYearItems=&advanced=&exact=&textH=&completeText=&text=&sort=&fechaFhasta=&accesotematico1=CIENCIAS+SOCIALES&accesotematico2=Sociedad&pageSize=1&pageSizeAbrv=30&pageNumber=7>
+<https://nobispacem.com/materias/descargas-gratuitas>
+<https://ww2.lectulandia.com/>
+<https://biblioteca.org.ar/libros/>
+<https://www.imprentanacional.go.cr/editorialdigital/default.aspx>
+<https://www.filosofia.org/>
+<https://ministeriodeeducacion.gob.do/sobre-nosotros/areas-institucionales/biblioteca-virtual/ensayo?page=6>
+<https://www.insumisos.com/index.php/mtbidi>
+<https://www.insumisos.com/M4T3R14L/BD/Einstein-Albert/Por%20que%20socialismo.PDF>
+<http://bdh.bne.es/bnesearch/CompleteSearch.do?fechaFdesde=&showYearItems=&advanced=&exact=&textH=&completeText=&text=&sort=&fechaFhasta=&accesotematico1=CIENCIAS+SOCIALES&accesotematico2=Sociedad&pageSize=1&pageSizeAbrv=30&pageNumber=7>
+<https://trabajitospanama.com/bibliotecas/>
+<http://libgen.is/search.php?req=historia&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def>
+<https://el1900.blogspot.com/2022/08/comando-tecnicas-de-combate-y.html>
+<https://literaturalegionaria.blogspot.com/>
+<https://www.freelibros.net/>
+
