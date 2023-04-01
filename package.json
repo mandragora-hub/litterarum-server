@@ -7,7 +7,7 @@
     "dev": "ts-node-dev --files -r tsconfig-paths/register ./src/server.ts",
     "build": "tsc && tsc-alias",
     "start": "tsc && tsc-alias && node .",
-    "test": "cross-env NODE_ENV=test jest --coverage --testTimeout=10000" ,
+    "test": "cross-env NODE_ENV=test jest --coverage --detectOpenHandles --testTimeout=10000" ,
     "format": "prettier --write {**/,}*.js",
     "format:check": "prettier --check {**/,}*.js",
     "lint": "eslint ."
