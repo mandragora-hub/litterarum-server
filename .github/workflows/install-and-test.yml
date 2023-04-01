@@ -1,0 +1,43 @@
+name: 🏗️ CI
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env: 
+  WEBDAV_USER: ${{vars.WEBDAV_USER}}
+  WEBDAV_TOKEN: ${{vars.WEBDAV_TOKEN}}
+  WEBDAV_BASE_URL: ${{vars.WEBDAV_BASE_URL}}
+  WEBDAV_BASE_DIR: ${{vars.WEBDAV_BASE_DIR}}
+  TESTING_API_TOKEN: ${{vars.TESTING_API_TOKEN}}
+  MONGODB_URI: ${{vars.MONGODB_URI}}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: dev-test-environment
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [18.x, 19.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create and populate .env file
+        run: |
+          touch .env
+          echo WEBDAV_USER=${WEBDAV_USER}>> .env
+          echo WEBDAV_TOKEN=${WEBDAV_TOKEN}>> .env
+          echo WEBDAV_BASE_URL=${WEBDAV_BASE_URL}>> .env
+          echo WEBDAV_BASE_DIR=${WEBDAV_BASE_DIR}>> .env
+          echo TESTING_API_TOKEN=${TESTING_API_TOKEN}>> .env
+          echo MONGODB_URI=${MONGODB_URI}>> .env
+        shell: bash
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm test
