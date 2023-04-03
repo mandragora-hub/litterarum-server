@@ -12,6 +12,8 @@ const bookPostSchema: JSONSchemaType<IBaseBook> = {
     wordCount: { type: "number", nullable: true },
     pages: { type: "number", nullable: true },
     views: { type: "number", default: 0 },
+    downloadPdfLink: { type: "string", nullable: true },
+    downloadEPubLink: { type: "string", nullable: true },
   },
   required: ["title", "basename"],
   additionalProperties: true,
