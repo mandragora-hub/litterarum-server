@@ -4,8 +4,7 @@ import { getAllFiles, stat, download } from "~/controllers/files";
 const router = express.Router();
 
 router.get("/", getAllFiles);
-router.get("/:id", stat);
-router.get("/:id/download", download);
-
+router.get("/:id", download);
+router.get("/:id/stat", stat);
 
 export default router;
