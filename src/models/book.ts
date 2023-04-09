@@ -1,7 +1,6 @@
 import { model, Schema, Types } from "mongoose";
 import { IAuthor } from "./author";
 import { ISysTag } from "./sysTag";
-import convertToAbsoluteUrl from "~/utils/lib/convertToAbsoluteUrl";
 
 export interface IBaseBook {
   title: string;
@@ -14,8 +13,6 @@ export interface IBaseBook {
   pages?: number;
   pdfFile?: string;
   ePubFile?: string;
-  downloadPdfLink?: string; // remove me
-  downloadEPubLink?: string; // remove me
 }
 
 export interface Metadata {
@@ -71,16 +68,6 @@ export const bookSchema = new Schema<IBook>(
       required: false,
       unique: true,
     },
-    downloadPdfLink: {
-      type: String,
-      required: false,
-      unique: true,
-    },
-    downloadEPubLink: {
-      type: String,
-      required: false,
-      unique: true,
-    },
     metadata: {
       title: String,
       author: String,
@@ -105,21 +92,5 @@ export const bookSchema = new Schema<IBook>(
   },
   { timestamps: true }
 );
-
-bookSchema.post("findOne", (result: IBook) => {
-  if (result.downloadEPubLink)
-    result.downloadEPubLink = convertToAbsoluteUrl(result.downloadEPubLink);
-  if (result.downloadPdfLink)
-    result.downloadPdfLink = convertToAbsoluteUrl(result.downloadPdfLink);
-});
-
-bookSchema.post("find", (result: IBook[]) => {
-  result.forEach((el) => {
-    if (el.downloadEPubLink)
-      el.downloadEPubLink = convertToAbsoluteUrl(el.downloadEPubLink);
-    if (el.downloadPdfLink)
-      el.downloadPdfLink = convertToAbsoluteUrl(el.downloadPdfLink);
-  });
-});
 
 export const Book = model("Book", bookSchema);

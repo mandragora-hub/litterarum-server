@@ -14,8 +14,6 @@ const bookPutSchema: JSONSchemaType<IBaseBook> = {
     views: { type: "number" },
     pdfFile: { type: "string", nullable: true },
     ePubFile: { type: "string", nullable: true },
-    downloadPdfLink: { type: "string", nullable: true },
-    downloadEPubLink: { type: "string", nullable: true },
   },
   required: [],
   additionalProperties: true,
