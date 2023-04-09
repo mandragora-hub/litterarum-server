@@ -4,7 +4,7 @@ import messages from "~/config/messages";
 // import Api404Error from "~/utils/api404Error";
 import { Book, Author, SysTag } from "~/models";
 // import getUniqueListBy from "~/utils/lib/getUniqueListBy";
-import type { KeysetPagination, RequestQuery } from "~/types/common";
+import type { KeysetPagination, RequestQuery } from "types";
 
 const DEFAULT_LIMIT = 7;
 const DEFAULT_ORDER = "desc";

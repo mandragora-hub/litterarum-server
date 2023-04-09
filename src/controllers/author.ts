@@ -3,7 +3,7 @@ import serverResponses from "~/utils/helpers/responses";
 import messages from "~/config/messages";
 import { IAuthor, Author } from "~/models/author";
 import Api404Error from "~/utils/api404Error";
-import { RequestBody } from "~/types/common";
+import { RequestBody } from "types";
 
 const create = (
   req: RequestBody<IAuthor>,

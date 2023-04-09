@@ -7,7 +7,7 @@ import { Book, IBook } from "~/models/book";
 import { Author, IAuthor } from "~/models/author";
 import { SysTag, ISysTag } from "~/models/sysTag";
 import getUniqueListBy from "~/utils/lib/getUniqueListBy";
-import type { KeysetPagination, RequestQuery, TypeFile } from "~/types/common";
+import type { KeysetPagination, RequestQuery, TypeFile } from "types";
 import { books as searchBooks } from "./search";
 import { download as downloadFile } from "./files";
 

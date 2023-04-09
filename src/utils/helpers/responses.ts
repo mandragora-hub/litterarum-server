@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { HttpMessageHandler } from "~/types/common";
+import { HttpMessageHandler } from "types";
 
 type MetaType = Record<string, string | number>;
 type ResponseMessage = HttpMessageHandler &
