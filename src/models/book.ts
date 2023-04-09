@@ -5,15 +5,16 @@ import convertToAbsoluteUrl from "~/utils/lib/convertToAbsoluteUrl";
 
 export interface IBaseBook {
   title: string;
-  basename: string; // remove me
   downloaded: number;
   views: number;
   coverUrl?: string;
   readTime?: number; // ?note: time in milliseconds
   wordCount?: number;
   pages?: number;
-  downloadPdfLink?: string;
-  downloadEPubLink?: string;
+  pdfFile?: string;
+  ePubFile?: string;
+  downloadPdfLink?: string; // remove me
+  downloadEPubLink?: string; // remove me
 }
 
 export interface Metadata {
@@ -44,10 +45,6 @@ export const bookSchema = new Schema<IBook>(
       index: true,
       unique: true,
     },
-    basename: {
-      type: String,
-      required: true,
-    },
     downloaded: {
       type: Number,
       default: 0,
@@ -60,6 +57,16 @@ export const bookSchema = new Schema<IBook>(
     readTime: Number,
     wordCount: Number,
     pages: Number,
+    pdfFile: {
+      type: String,
+      required: false,
+      unique: true,
+    },
+    ePubFile: {
+      type: String,
+      required: false,
+      unique: true,
+    },
     downloadPdfLink: {
       type: String,
       required: false,

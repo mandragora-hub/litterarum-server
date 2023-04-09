@@ -19,3 +19,5 @@ export type KeysetPagination = Partial<{
   sort: string;
   order: "desc" | "asc";
 }>;
+
+export type TypeFile = "pdf" | "epub";

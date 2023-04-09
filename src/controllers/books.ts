@@ -2,11 +2,12 @@ import { Request, Response, NextFunction } from "express";
 import serverResponses from "~/utils/helpers/responses";
 import messages from "~/config/messages";
 import Api404Error from "~/utils/api404Error";
+import Api400Error from "~/utils/api400Error";
 import { Book, IBook } from "~/models/book";
 import { Author, IAuthor } from "~/models/author";
 import { SysTag, ISysTag } from "~/models/sysTag";
 import getUniqueListBy from "~/utils/lib/getUniqueListBy";
-import type { KeysetPagination, RequestQuery } from "~/types/common";
+import type { KeysetPagination, RequestQuery, TypeFile } from "~/types/common";
 import { books as searchBooks } from "./search";
 import { download as downloadFile } from "./files";
 
@@ -241,7 +242,7 @@ const update = async (
 };
 
 const download = async (
-  req: Request<{ id: string }>,
+  req: Request<{ id: string }, unknown, unknown, { type?: TypeFile }>,
   res: Response,
   next: NextFunction
 ) => {
@@ -254,7 +255,27 @@ const download = async (
     book.downloaded++;
     book.save();
 
-    req.params.id = book.basename;
+    if (!req.query.type) req.query.type = "pdf";
+    if (!["pdf", "epub"].includes(req.query.type)) {
+      throw new Api400Error(`Cannot find ${req.query.type} type.`);
+    }
+    if (req.query.type === "pdf" && !book.pdfFile) {
+      throw new Api404Error(
+        `Cannot find pdf file for book (${req.params.id}).`
+      );
+    }
+    if (req.query.type === "epub" && !book.ePubFile) {
+      throw new Api404Error(
+        `Cannot find epub
+         file for book (${req.params.id}).`
+      );
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    if (req.query.type === "pdf") req.params.id = book.pdfFile!;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    if (req.query.type === "epub") req.params.id = book.ePubFile!;
+
     return downloadFile(req, res, next);
   } catch (err) {
     next(err);

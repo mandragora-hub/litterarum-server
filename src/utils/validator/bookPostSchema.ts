@@ -5,17 +5,21 @@ const bookPostSchema: JSONSchemaType<IBaseBook> = {
   type: "object",
   properties: {
     title: { type: "string" },
-    basename: { type: "string" },
     downloaded: { type: "integer", default: 0 },
     coverUrl: { type: "string", nullable: true },
     readTime: { type: "number", nullable: true },
     wordCount: { type: "number", nullable: true },
     pages: { type: "number", nullable: true },
     views: { type: "number", default: 0 },
+    pdfFile: { type: "string", nullable: true },
+    ePubFile: { type: "string", nullable: true },
     downloadPdfLink: { type: "string", nullable: true },
     downloadEPubLink: { type: "string", nullable: true },
+
+    
+    
   },
-  required: ["title", "basename"],
+  required: ["title"],
   additionalProperties: true,
 };
 
