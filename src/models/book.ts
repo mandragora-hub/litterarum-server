@@ -5,6 +5,7 @@ import convertToAbsoluteUrl from "~/utils/lib/convertToAbsoluteUrl";
 
 export interface IBaseBook {
   title: string;
+  description?: string;
   downloaded: number;
   views: number;
   coverUrl?: string;
@@ -44,6 +45,9 @@ export const bookSchema = new Schema<IBook>(
       required: true,
       index: true,
       unique: true,
+    },
+    description: {
+      type: String,
     },
     downloaded: {
       type: Number,
