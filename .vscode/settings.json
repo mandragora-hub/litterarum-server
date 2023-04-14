@@ -4,5 +4,7 @@
     "litterarum",
     "Litterarum's",
     "maxsize"
-  ]
+  ],
+  "jest.rootPath": ".",
+  "jest.jestCommandLine": "`npm test`"
 }

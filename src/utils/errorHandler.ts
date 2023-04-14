@@ -16,6 +16,7 @@ function middleware(err, _req: Request, res: Response, _next: NextFunction) {
     if (isCastError(err)) return res.status(BAD_REQUEST.code).send(BAD_REQUEST);
 
     if (err.name == "Api404Error") handleHttpException(res, err);
+    if (err.name == "Api400Error") handleHttpException(res, err);
     if (err.name == "ValidationError") handleHttpException(res, err);
     if (err.name == "HttpException") handleHttpException(res, err);
 

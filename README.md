@@ -19,29 +19,35 @@ mongosh ${CONN_URI} --file scripts/create-user.js
 npm i
 ```
 
-### Running
+### Running in local development
 
 ```sh
 npm run dev
 ```
 
-## Setup MongoDB with docker
+### Running with docker compose (recommended)
+
+```sh
+docker compose build && docker compose up
+```
+
+### Setup MongoDB with docker
 
 ```sh
 docker run --rm --name litterarum-dev-db -v data:/data/db -p 27017:27017 mongo
 ```
 
-## Run docker
+### Running standalone litterarum container
 
 ```sh
-# Build
+# Build image
 docker build -t litterarum-server:001 .
 
 # Run 
 docker run --rm --init --name litterarum-server --env-file='.env' litterarum-server:001
 ```
 
-## Normalize filename
+### Normalize filename
 
 According to good web practice
 
@@ -85,3 +91,9 @@ docker exec -i litterarum-dev-db  sh -c 'exec mongorestore --username root --pas
 <https://www.insumisos.com/index.php/mtbidi>
 <https://www.insumisos.com/M4T3R14L/BD/Einstein-Albert/Por%20que%20socialismo.PDF>
 <http://bdh.bne.es/bnesearch/CompleteSearch.do?fechaFdesde=&showYearItems=&advanced=&exact=&textH=&completeText=&text=&sort=&fechaFhasta=&accesotematico1=CIENCIAS+SOCIALES&accesotematico2=Sociedad&pageSize=1&pageSizeAbrv=30&pageNumber=7>
+<https://trabajitospanama.com/bibliotecas/>
+<http://libgen.is/search.php?req=historia&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def>
+<https://el1900.blogspot.com/2022/08/comando-tecnicas-de-combate-y.html>
+<https://literaturalegionaria.blogspot.com/>
+<https://www.freelibros.net/>
+

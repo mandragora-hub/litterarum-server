@@ -4,12 +4,15 @@ import { ISysTag } from "./sysTag";
 
 export interface IBaseBook {
   title: string;
-  basename: string;
-  downloaded?: number;
+  description?: string;
+  downloaded: number;
+  views: number;
   coverUrl?: string;
   readTime?: number; // ?note: time in milliseconds
   wordCount?: number;
   pages?: number;
+  pdfFile?: string;
+  ePubFile?: string;
 }
 
 export interface Metadata {
@@ -40,11 +43,14 @@ export const bookSchema = new Schema<IBook>(
       index: true,
       unique: true,
     },
-    basename: {
+    description: {
       type: String,
-      required: true,
     },
     downloaded: {
+      type: Number,
+      default: 0,
+    },
+    views: {
       type: Number,
       default: 0,
     },
@@ -52,6 +58,16 @@ export const bookSchema = new Schema<IBook>(
     readTime: Number,
     wordCount: Number,
     pages: Number,
+    pdfFile: {
+      type: String,
+      required: false,
+      unique: true,
+    },
+    ePubFile: {
+      type: String,
+      required: false,
+      unique: true,
+    },
     metadata: {
       title: String,
       author: String,
@@ -76,4 +92,5 @@ export const bookSchema = new Schema<IBook>(
   },
   { timestamps: true }
 );
+
 export const Book = model("Book", bookSchema);
