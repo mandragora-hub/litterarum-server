@@ -21,6 +21,7 @@ import passport from "passport";
 import { Strategy as BearerStrategy } from "passport-http-bearer";
 import { User, IUser } from "./models/user";
 import { MongooseError } from "mongoose";
+import rateLimit from 'express-rate-limit'
 
 const app = express();
 app.use(httpLogger);
@@ -54,9 +55,15 @@ passport.use(
 
 const authenticate = passport.authenticate("bearer", { session: false });
 
+const limiter = rateLimit({
+	windowMs: 5 * 60 * 1000, // 5 minutes
+	max: 5, // Limit eac5h IP to 5 requests per `window` (here, per 5 minutes)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
 // Setup routes
 app.use("/api/v1/todos", v1RouterTodos);
-app.use("/api/v1/files", v1RouterFiles);
+app.use("/api/v1/files",limiter, v1RouterFiles);
 app.use("/api/v1/search", authenticate, v1RouterSearch);
 app.use("/api/v1/authors", authenticate, v1RouterAuthors);
 app.use("/api/v1/books", authenticate, v1RouterBooks);
