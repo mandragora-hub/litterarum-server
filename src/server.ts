@@ -31,7 +31,7 @@ connect(app); // connection from db here
 const bodyOptions = { limit: "10mb" };
 app.use(express.json(bodyOptions));
 app.use(express.urlencoded({ ...bodyOptions, extended: false }));
-app.use(express.static(join(__dirname, "public")));
+app.use(express.static(join(__dirname, "../public")));
 
 /* Security middleware configs */
 app.use(cors());
