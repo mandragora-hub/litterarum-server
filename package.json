@@ -9,7 +9,7 @@
     "compile": "tsc && tsc-alias ",
     "copy-files": "copyfiles public/* dist",
     "build": "npm run clean && npm run compile && npm run copy-files",
-    "start": "npm run build && node .",
+    "start": "node .",
     "test": "cross-env NODE_ENV=test jest --coverage --detectOpenHandles --testTimeout=10000",
     "format": "prettier --write {**/,}*.js",
     "format:check": "prettier --check {**/,}*.js",
