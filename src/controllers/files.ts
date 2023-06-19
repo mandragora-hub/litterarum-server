@@ -33,8 +33,8 @@ const download = async (req: Request<{ id: string }>, res: Response, next: NextF
     if (!exists) throw new Api404Error(`Files with id: ${req.params.id} not found.`);
   } catch (err) { return next(err); }
 
-  const stat = await occ.stat(path) as FileStat
-  res.attachment(stat.basename);
+  // const stat = await occ.stat(path) as FileStat
+  // res.attachment(stat.basename);
   occ.createReadStream(path).pipe(res);
 
   // !TODO : Handle error stream creation
