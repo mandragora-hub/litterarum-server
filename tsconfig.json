@@ -17,5 +17,5 @@
     "typeRoots": ["./node_modules/@types", "./src/types"]
   },
   "include": ["src/**/*", "types.ts", "environment.d.ts"],
-  "exclude": ["./coverage", "./dist", "__tests__", "jest.config.js"],
+  "exclude": ["./coverage", "./dist", "./public", "__tests__", "jest.config.js"],
 }
