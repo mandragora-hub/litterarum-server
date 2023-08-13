@@ -13,6 +13,8 @@ export interface IBaseBook {
   pages?: number;
   pdfFile?: string;
   ePubFile?: string;
+  publicationDate?: string;
+  isbn?: string;
 }
 
 export interface Metadata {
@@ -67,6 +69,28 @@ export const bookSchema = new Schema<IBook>(
       type: String,
       required: false,
       unique: true,
+    },
+    publicationDate: {
+      type: String,
+      required: false,
+      validate: {
+        validator: function (v: string) {
+          return v.match(
+            /^(3[01]|[12][0-9]|0?[1-9])(\/|-)(1[0-2]|0?[1-9])\2([0-9]{2})?[0-9]{2}$/
+          );
+        },
+        message: (props) => `${props.value} is not a valid date!`,
+      },
+    },
+    isbn: {
+      type: String,
+      required: false,
+      validate: {
+        validator: function (v: string) {
+          return v.match(/^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/g);
+        },
+        message: (props) => `${props.value} is not a valid isbn!`,
+      },
     },
     metadata: {
       title: String,

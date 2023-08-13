@@ -14,6 +14,7 @@ function middleware(err, _req: Request, res: Response, _next: NextFunction) {
 
   try {
     if (isCastError(err)) return res.status(BAD_REQUEST.code).send(BAD_REQUEST);
+    if (isValidationError(err)) return handleMongooseValidationError(res, err);
 
     if (err.name == "Api404Error") handleHttpException(res, err);
     if (err.name == "Api400Error") handleHttpException(res, err);
@@ -37,6 +38,10 @@ function isCastError(error) {
   return error instanceof mongoose.Error.CastError;
 }
 
+function isValidationError(error) {
+  return error instanceof mongoose.Error.ValidationError;
+}
+
 function handleHttpException(res: Response, err: HttpException) {
   return res
     .status(err.statusCode)
@@ -44,6 +49,16 @@ function handleHttpException(res: Response, err: HttpException) {
 }
 
 function handleDuplicateKeyError(res: Response, err: HttpException) {
+  const { BAD_REQUEST } = httpMessage;
+  return res
+    .status(BAD_REQUEST.code)
+    .send({ code: BAD_REQUEST.code, status: "FAILED", message: err.message });
+}
+
+function handleMongooseValidationError(
+  res: Response,
+  err: mongoose.Error.ValidationError
+) {
   const { BAD_REQUEST } = httpMessage;
   return res
     .status(BAD_REQUEST.code)

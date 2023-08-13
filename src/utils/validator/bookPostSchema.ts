@@ -14,6 +14,11 @@ const bookPostSchema: JSONSchemaType<IBaseBook> = {
     views: { type: "number", default: 0 },
     pdfFile: { type: "string", nullable: true },
     ePubFile: { type: "string", nullable: true },
+    publicationDate: {
+      type: "string",
+      nullable: true,
+    },
+    isbn: { type: "string", nullable: true },
   },
   required: ["title"],
   additionalProperties: true,
