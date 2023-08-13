@@ -13,7 +13,7 @@ export interface IBaseBook {
   pages?: number;
   pdfFile?: string;
   ePubFile?: string;
-  publicationDate?: string;
+  publicationDate?: string; // 431-213 BC, 1982
   isbn?: string;
 }
 
@@ -73,14 +73,6 @@ export const bookSchema = new Schema<IBook>(
     publicationDate: {
       type: String,
       required: false,
-      validate: {
-        validator: function (v: string) {
-          return v.match(
-            /^(3[01]|[12][0-9]|0?[1-9])(\/|-)(1[0-2]|0?[1-9])\2([0-9]{2})?[0-9]{2}$/
-          );
-        },
-        message: (props) => `${props.value} is not a valid date!`,
-      },
     },
     isbn: {
       type: String,
