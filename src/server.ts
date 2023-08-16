@@ -17,10 +17,7 @@ import v1RouterBatch from "./v1/routes/batch";
 import v1RouterHealthCheck from "./v1/routes/healthcheck";
 import helmet from "helmet";
 import hpp from "hpp";
-import passport from "passport";
-import { Strategy as BearerStrategy } from "passport-http-bearer";
-import { User, IUser } from "./models/user";
-import { MongooseError } from "mongoose";
+import authenticate from "./middleware/passport";
 
 const app = express();
 app.use(httpLogger);
@@ -37,30 +34,13 @@ app.use(cors());
 app.use(helmet());
 app.use(hpp());
 
-// Init passport middleware
-passport.use(
-  new BearerStrategy(function (token, done) {
-    User.findOne({ token: token }, function (err: MongooseError, user: IUser) {
-      if (err) {
-        return done(err);
-      }
-      if (!user) {
-        return done(null, false);
-      }
-      return done(null, user, { scope: "all" });
-    });
-  })
-);
-
-const authenticate = passport.authenticate("bearer", { session: false });
-
 // Setup routes
 app.use("/api/v1/todos", v1RouterTodos);
 app.use("/api/v1/files", v1RouterFiles);
-app.use("/api/v1/search", authenticate, v1RouterSearch);
-app.use("/api/v1/authors", authenticate, v1RouterAuthors);
-app.use("/api/v1/books", authenticate, v1RouterBooks);
-app.use("/api/v1/tags", authenticate, v1RouterTags);
+app.use("/api/v1/search", v1RouterSearch);
+app.use("/api/v1/authors", v1RouterAuthors);
+app.use("/api/v1/books", v1RouterBooks);
+app.use("/api/v1/tags", v1RouterTags);
 app.use("/api/v1/batch", authenticate, v1RouterBatch);
 app.use("/api/v1/healthcheck", v1RouterHealthCheck);
 

@@ -17,8 +17,9 @@ import {
   addTags,
   download,
   trending,
-  popular
+  popular,
 } from "~/controllers/books";
+import authenticate from "~/middleware/passport";
 
 const router = express.Router();
 
@@ -28,11 +29,16 @@ router.get("/trending", trending);
 router.get("/popular", popular);
 // router.get("/top-rate", topRate);
 router.get("/:id", findOne);
-router.post("/", validateBody(bookPostSchema), create);
-router.put("/:id", validateBody(bookPutSchema), update);
-router.delete("/:id", remove);
-router.post("/:id/author", validateBody(authorPostSchema), addAuthor);
-router.post("/:id/tags", validateBatch(tagPostSchema), addTags);
+router.post("/", authenticate, validateBody(bookPostSchema), create);
+router.put("/:id", authenticate, validateBody(bookPutSchema), update);
+router.delete("/:id", authenticate, remove);
+router.post(
+  "/:id/author",
+  authenticate,
+  validateBody(authorPostSchema),
+  addAuthor
+);
+router.post("/:id/tags", authenticate, validateBatch(tagPostSchema), addTags);
 router.get("/:id/download", download);
 
 export default router;
