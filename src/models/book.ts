@@ -1,6 +1,7 @@
 import { model, Schema, Types } from "mongoose";
 import { IAuthor } from "./author";
 import { ISysTag } from "./sysTag";
+import slugify from "~/utils/lib/slugify";
 
 export interface IBaseBook {
   title: string;
@@ -29,6 +30,7 @@ export interface Metadata {
 }
 
 export interface IBook extends IBaseBook {
+  slug: string; // A slug is a human-readable, unique identifier, used to identify a resource instead of a less human-readable identifier like an id.
   author?: IAuthor;
   tags?: ISysTag[];
   metadata?: Partial<Metadata>;
@@ -40,6 +42,12 @@ Schema.Types.String.set("trim", true);
 export const bookSchema = new Schema<IBook>(
   {
     title: {
+      type: String,
+      required: true,
+      index: true,
+      unique: true,
+    },
+    slug: {
       type: String,
       required: true,
       index: true,
@@ -108,5 +116,10 @@ export const bookSchema = new Schema<IBook>(
   },
   { timestamps: true }
 );
+
+bookSchema.pre('validate', function(next) {
+  this.slug = slugify(this.title);
+  next();
+});
 
 export const Book = model("Book", bookSchema);
