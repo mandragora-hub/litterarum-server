@@ -1,26 +1,19 @@
 import passport from "passport";
 import { BasicStrategy } from "passport-http";
-import { User, IUser } from "../models/user";
-import { MongooseError } from "mongoose";
+import { User } from "../models/user";
 
 passport.use(
-  new BasicStrategy(function (username, password, done) {
-    User.findOne(
-      { name: username },
-      function (err: MongooseError, user: IUser) {
-        if (err) {
-          return done(err);
-        }
-        if (!user) {
-          return done(null, false);
-        }
-        if (user.token !== password) {
-          return done(null, false);
-        }
+  new BasicStrategy(async function (username, password, done) {
+    const user = await User.findOne({ name: username });
+    if (!user) {
+      return done(null, false);
+    }
 
-        return done(null, user);
-      }
-    );
+    if (user.token !== password) {
+      return done(null, false);
+    }
+
+    return done(null, user);
   })
 );
 

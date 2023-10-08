@@ -10,6 +10,7 @@ import getUniqueListBy from "~/utils/lib/getUniqueListBy";
 import type { KeysetPagination, RequestQuery, TypeFile } from "types";
 import { books as searchBooks } from "./search";
 import { download as downloadFile } from "./files";
+import slugify from "~/utils/lib/slugify";
 
 const findAll = (req: Request, res: Response, next: NextFunction) => {
   Book.find({}, { __v: 0 })
@@ -221,7 +222,10 @@ const update = async (
 ) => {
   // TODO: fix this
   try {
-    const newBook = req.body;
+    const newBook = {
+      ...(req.body.title && { slug: slugify(req.body.title) }),
+      ...req.body,
+    };
     const updateOptions = {
       new: true,
     };

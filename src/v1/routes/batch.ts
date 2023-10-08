@@ -1,7 +1,11 @@
 import express from "express";
 import { Model } from "mongoose";
 import { Request, Response, NextFunction } from "express";
-import { tagPostSchema, authorPostSchema, bookPostSchema } from "~/utils/validator";
+import {
+  tagPostSchema,
+  authorPostSchema,
+  bookPostSchema,
+} from "~/utils/validator";
 import validateBatch from "~/middleware/validateBatch";
 import { Author, SysTag } from "~/models";
 import serverResponses from "~/utils/helpers/responses";
@@ -17,16 +21,14 @@ function insertMany<T extends Model<any>, Data>(
   res: Response,
   next: NextFunction
 ) {
-  try {
-    Model.insertMany(data, function (err) {
-      if (err) {
-        throw new Error(err.message);
-      }
-      serverResponses.sendSuccess(res, messages.SUCCESSFUL);
+  Model.insertMany(data)
+    .then(() => {
+      return serverResponses.sendSuccess(res, messages.SUCCESSFUL);
+    })
+    .catch((err) => {
+      // throw new Error(err.message);
+      next(err);
     });
-  } catch (err) {
-    next(err);
-  }
 }
 
 router.post(
@@ -41,12 +43,9 @@ router.post(
   validateBatch(authorPostSchema),
   (req: Request, res: Response, next: NextFunction) => {
     insertMany<typeof Author, object>(Author, req.body, res, next);
-  })
-
-router.post(
-  "/books",
-  validateBatch(bookPostSchema),
-  createBookBatch
+  }
 );
+
+router.post("/books", validateBatch(bookPostSchema), createBookBatch);
 
 export default router;
