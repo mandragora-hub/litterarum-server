@@ -12,8 +12,13 @@ import { books as searchBooks } from "./search";
 import { download as downloadFile } from "./files";
 import slugify from "~/utils/lib/slugify";
 
-const findAll = (req: Request, res: Response, next: NextFunction) => {
-  Book.find({}, { __v: 0 })
+const findAll = (
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  req: Request<{}, {}, { slug?: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  Book.find({ ...(req.query.slug && { slug: req.query.slug }) }, { __v: 0 })
     .populate(["author", "tags"])
     .then((books) => {
       serverResponses.sendSuccess(res, messages.SUCCESSFUL, books);
