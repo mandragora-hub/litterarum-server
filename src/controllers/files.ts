@@ -3,7 +3,6 @@ import serverResponses from "~/utils/helpers/responses";
 import messages from "~/config/messages";
 import Api404Error from "~/utils/api404Error";
 import occ from "~/utils/OwncloudClient";
-import { FileStat } from "webdav";
 
 const getAllFiles = (req: Request, res: Response, next: NextFunction) => {
   occ.getDirectoryContents()
