@@ -18,6 +18,8 @@ import {
   download,
   trending,
   popular,
+  increaseViewsCount,
+  increaseDownloadCount,
 } from "~/controllers/books";
 import authenticate from "~/middleware/passport";
 
@@ -40,5 +42,7 @@ router.post(
 );
 router.post("/:id/tags", authenticate, validateBatch(tagPostSchema), addTags);
 router.get("/:id/download", download);
+router.post("/:id/hit/views", increaseViewsCount);
+router.post("/:id/hit/download", increaseDownloadCount);
 
 export default router;

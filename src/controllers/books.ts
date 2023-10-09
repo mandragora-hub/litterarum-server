@@ -194,9 +194,6 @@ const findOne = async (
     if (!book) {
       throw new Api404Error(`book with id: ${req.params.id} not found.`);
     }
-    // * increase views count
-    book.views++;
-    book.save();
 
     serverResponses.sendSuccess(res, messages.SUCCESSFUL, book);
   } catch (err) {
@@ -339,6 +336,44 @@ const popular = async (
   }
 };
 
+const increaseViewsCount = async (
+  req: Request<{ id: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    if (!book) {
+      throw new Api404Error(`book with id: ${req.params.id} not found.`);
+    }
+
+    book.views++;
+    await book.save();
+    serverResponses.sendSuccess(res, messages.SUCCESSFUL, {});
+  } catch (error) {
+    next(error);
+  }
+};
+
+const increaseDownloadCount = async (
+  req: Request<{ id: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    if (!book) {
+      throw new Api404Error(`book with id: ${req.params.id} not found.`);
+    }
+
+    book.downloaded++;
+    await book.save();
+    serverResponses.sendSuccess(res, messages.SUCCESSFUL, {});
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   findAll,
   create,
@@ -352,4 +387,6 @@ export {
   trending,
   popular,
   download,
+  increaseViewsCount,
+  increaseDownloadCount,
 };
