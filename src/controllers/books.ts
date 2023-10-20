@@ -304,7 +304,23 @@ const latest = async (
   }
 };
 
-const trending = async (
+// const trending = async (
+//   req: RequestQuery<KeysetPagination>,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     // Default value
+//     req.query.sort = "downloaded";
+//     req.query.q = "";
+
+//     return searchBooks(req, res, next);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+const mostDownloaded = async (
   req: RequestQuery<KeysetPagination>,
   res: Response,
   next: NextFunction
@@ -384,7 +400,7 @@ export {
   addTags,
   createBatch,
   latest,
-  trending,
+  mostDownloaded,
   popular,
   download,
   increaseViewsCount,

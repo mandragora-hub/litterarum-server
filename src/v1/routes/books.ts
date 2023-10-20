@@ -16,7 +16,7 @@ import {
   addAuthor,
   addTags,
   download,
-  trending,
+  mostDownloaded,
   popular,
   increaseViewsCount,
   increaseDownloadCount,
@@ -27,8 +27,9 @@ const router = express.Router();
 
 router.get("/", findAll);
 router.get("/latest", latest);
-router.get("/trending", trending);
 router.get("/popular", popular);
+router.get("/most_downloaded", mostDownloaded);
+// router.get("/trending", trending);
 // router.get("/top-rate", topRate);
 router.get("/:id", findOne);
 router.post("/", authenticate, validateBody(bookPostSchema), create);
