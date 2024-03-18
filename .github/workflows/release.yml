@@ -4,6 +4,10 @@ on:
     branches:
       - master
 
+# Disable git hooks
+env:
+  HUSKY: 0
+
 permissions:
   contents: read # for checkout
 
