@@ -8,6 +8,9 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
+# Disable Husky: https://typicode.github.io/husky/how-to.html#ci-server-and-docker 
+ENV HUSKY 0
+
 # Install deps
 RUN npm i
 # If you are building your code for production
