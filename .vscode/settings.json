@@ -4,7 +4,9 @@
     "dotfiles",
     "litterarum",
     "Litterarum's",
-    "maxsize"
+    "maxsize",
+    "originalname",
+    "Owncloud"
   ],
   "jest.rootPath": ".",
   "jest.jestCommandLine": "`npm test`"
