@@ -14,16 +14,16 @@ services:
       WEBDAV_BASE_DIR: ${WEBDAV_BASE_DIR}
       MONGODB_URI: ${MONGODB_URI}
       PORT: ${PORT}
-    depends_on:
-      - mongo
+    # depends_on:
+    #   - mongo
 
-  mongo:
-    image: mongo:latest
-    container_name: litterarum-dev-db
-    volumes:
-      - ./data:/data/db
-    ports:
-      - 27017:27017
+  # mongo:
+  #   image: mongo:latest
+  #   container_name: litterarum-dev-db
+  #   volumes:
+  #     - ./data:/data/db
+  #   ports:
+  #     - 27017:27017
     # environment:
       # MONGO_INITDB_DATABASE: TodoApp
       # MONGO_INITDB_ROOT_USERNAME: root

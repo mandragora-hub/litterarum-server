@@ -33,7 +33,7 @@ const books = async (
       .skip((page - 1) * limit)
       .sort([[sort, order]])
       .exec();
-    const count = await Book.count({
+    const count = await Book.countDocuments({
       ...(q ? { title: { $regex: q, $options: "i" } } : {}),
     });
     serverResponses.sendSuccess(res, messages.SUCCESSFUL, books, {
@@ -66,7 +66,7 @@ const authors = async (
       .skip((page - 1) * limit)
       .sort([[sort, order]])
       .exec();
-    const count = await Author.count({
+    const count = await Author.countDocuments({
       ...(q ? { name: { $regex: q, $options: "i" } } : {}),
     });
     serverResponses.sendSuccess(res, messages.SUCCESSFUL, authors, {
@@ -99,7 +99,7 @@ const tags = async (
       .skip((page - 1) * limit)
       .sort([[sort, order]])
       .exec();
-    const count = await SysTag.count({
+    const count = await SysTag.countDocuments({
       ...(q ? { title: { $regex: q, $options: "i" } } : {}),
     });
     serverResponses.sendSuccess(res, messages.SUCCESSFUL, tags, {
