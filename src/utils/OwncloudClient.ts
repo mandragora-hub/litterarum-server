@@ -26,7 +26,7 @@ class OwncloudClient {
     return this.client.createReadStream(`${WEBDAV_BASE_DIR}/${filename}`);
   }
   async putFileContents(filename: string, buffer: string | Buffer) {
-    return this.client.putFileContents(`/${filename}`, buffer);
+    return this.client.putFileContents(`/${WEBDAV_BASE_DIR}/${filename}`, buffer);
   }
 }
 

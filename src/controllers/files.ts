@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import multer from "multer";
 import serverResponses from "~/utils/helpers/responses";
 import messages from "~/config/messages";
 import Api404Error from "~/utils/api404Error";
@@ -20,7 +19,7 @@ const getAllFiles = (req: Request, res: Response, next: NextFunction) => {
 const stat = async (
   req: Request<{ id: string }>,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const { id: path } = req.params;
   try {
@@ -38,7 +37,7 @@ const stat = async (
 const download = async (
   req: Request<{ id: string }>,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const { id: path } = req.params;
   try {
@@ -62,35 +61,24 @@ const download = async (
 const handleUpload = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    const memoryStorage = multer.memoryStorage();
-    const multerWrapper = multer({ storage: memoryStorage }).array("files");
-    multerWrapper(req, res, async function (err) {
-      if (err instanceof multer.MulterError) {
-        console.error(err);
-        return serverResponses.sendError(res, messages.INTERNAL_SERVER_ERROR);
-      } else if (err) {
-        // An unknown error occurred when uploading.
-        console.error(err);
-        return serverResponses.sendError(res, messages.INTERNAL_SERVER_ERROR);
-      }
-
-      if (!isMulterFilesArray(req.files)) return;
-      for (const file of req.files) {
-        const filename = file.originalname
-          .toLowerCase()
-          .replace(/[0-9]/g, "") // remove numerical characters
-          .trim() // remove end and start spaces
-          .replace(/ /g, "-"); //replace every space with hyphens
-        const result = await occ.putFileContents(filename, file.buffer);
-        if (!result) console.error(`Error on creating file: ${filename}`);
-      }
-    });
+    if (!isMulterFilesArray(req.files)) return;
+    for (const file of req.files) {
+      const filename = file.originalname
+        .toLowerCase()
+        .replace(/[0-9]/g, "") // remove numerical characters
+        .trim() // remove end and start spaces
+        .replace(/ /g, "-") //replace every space with hyphens
+        .replace(/-{2,}/g, "-"); //removes any hyphen sequences with just one hyphen
+      const result = await occ.putFileContents(filename, file.buffer);
+      if (!result) console.error(`Error on creating file: ${filename}`);
+    }
   } catch (err) {
     return next(err);
   }
+
   serverResponses.sendSuccess(res, messages.SUCCESSFUL);
 };
 

@@ -10,11 +10,12 @@ import httpMessage from "~/config/messages";
 
 function middleware(err, _req: Request, res: Response, _next: NextFunction) {
   logger.error(err.message);
-  const { BAD_REQUEST, INTERNAL_SERVER_ERROR } = httpMessage;
+  const { BAD_REQUEST } = httpMessage;
 
   try {
     if (isCastError(err)) return res.status(BAD_REQUEST.code).send(BAD_REQUEST);
     if (isValidationError(err)) return handleMongooseValidationError(res, err);
+    if (isMulterError(err)) return genericErrorResponse(res, err);
 
     if (err.name == "Api404Error") handleHttpException(res, err);
     if (err.name == "Api400Error") handleHttpException(res, err);
@@ -23,8 +24,17 @@ function middleware(err, _req: Request, res: Response, _next: NextFunction) {
 
     if (err.code && err.code == 11000) handleDuplicateKeyError(res, err);
   } catch {
-    return res.status(INTERNAL_SERVER_ERROR.code).send(INTERNAL_SERVER_ERROR);
+    return genericErrorResponse(res, err);
   }
+
+  return genericErrorResponse(res, err);
+}
+
+function genericErrorResponse(res: Response, err: Error) {
+  const { INTERNAL_SERVER_ERROR } = httpMessage;
+  return res
+    .status(INTERNAL_SERVER_ERROR.code)
+    .send({ ...INTERNAL_SERVER_ERROR, message: err.message });
 }
 
 function isOperationalError(error) {
@@ -36,6 +46,10 @@ function isOperationalError(error) {
 
 function isCastError(error) {
   return error instanceof mongoose.Error.CastError;
+}
+
+function isMulterError(error) {
+  return error instanceof multer.MulterError;
 }
 
 function isValidationError(error) {
@@ -57,7 +71,7 @@ function handleDuplicateKeyError(res: Response, err: HttpException) {
 
 function handleMongooseValidationError(
   res: Response,
-  err: mongoose.Error.ValidationError
+  err: mongoose.Error.ValidationError,
 ) {
   const { BAD_REQUEST } = httpMessage;
   return res

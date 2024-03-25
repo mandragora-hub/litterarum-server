@@ -1,6 +1,20 @@
 import express from "express";
 import rateLimit from "express-rate-limit";
+import multer from "multer";
 import { getAllFiles, stat, download, handleUpload } from "~/controllers/files";
+
+const memoryStorage = multer.memoryStorage();
+const multerMiddleware = multer({
+  storage: memoryStorage,
+  fileFilter: (_req, file, cb) => {
+    if (file.mimetype === "application/pdf") {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error("Only .pdf format allowed!"));
+    }
+  },
+}).array("files");
 
 const limiter = rateLimit({
   windowMs: 5 * 60 * 1000, // 5 minutes
@@ -12,7 +26,7 @@ const limiter = rateLimit({
 const router = express.Router();
 
 router.get("/", getAllFiles);
-router.post("/upload", handleUpload);
+router.post("/upload", multerMiddleware, handleUpload);
 router.get("/:id", limiter, download);
 router.get("/:id/stat", stat);
 
