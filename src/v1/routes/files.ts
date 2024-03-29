@@ -7,7 +7,7 @@ const memoryStorage = multer.memoryStorage();
 const multerMiddleware = multer({
   storage: memoryStorage,
   limits: {
-    fieldSize: 1024 * 1024 * 10, // 10mb
+    fileSize: 1024 * 1024 * 10, // 10mb
   },
   fileFilter: (_req, file, cb) => {
     if (file.mimetype === "application/pdf") {
