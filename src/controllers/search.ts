@@ -2,20 +2,21 @@ import { Response, NextFunction } from "express";
 import serverResponses from "~/utils/helpers/responses";
 import messages from "~/config/messages";
 // import Api404Error from "~/utils/api404Error";
-import { Book, Author, SysTag } from "~/models";
+import { Book, Collection, Author, SysTag } from "~/models";
 // import getUniqueListBy from "~/utils/lib/getUniqueListBy";
 import type { KeysetPagination, RequestQuery } from "types";
 
 const DEFAULT_LIMIT = 7;
 const DEFAULT_ORDER = "desc";
 const DEFAULT_BOOK_SORT = "title";
+const DEFAULT_COLLECTION_SORT = "name";
 const DEFAULT_AUTHOR_SORT = "name";
 const DEFAULT_TAG_SORT = "tag";
 
 const books = async (
   req: RequestQuery<KeysetPagination>,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const {
@@ -49,7 +50,7 @@ const books = async (
 const authors = async (
   req: RequestQuery<KeysetPagination>,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const {
@@ -82,7 +83,7 @@ const authors = async (
 const tags = async (
   req: RequestQuery<KeysetPagination>,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const {
@@ -112,4 +113,38 @@ const tags = async (
   }
 };
 
-export { books, authors, tags };
+const collections = async (
+  req: RequestQuery<KeysetPagination>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const {
+      q,
+      page = 1,
+      limit = DEFAULT_LIMIT,
+      order = DEFAULT_ORDER,
+      sort = DEFAULT_COLLECTION_SORT,
+    } = req.query;
+    const collections = await Collection.find({
+      ...(q ? { name: { $regex: q, $options: "i" } } : {}),
+    })
+      .populate(["books"])
+      .limit(limit)
+      .skip((page - 1) * limit)
+      .sort([[sort, order]])
+      .exec();
+    const count = await Collection.countDocuments({
+      ...(q ? { name: { $regex: q, $options: "i" } } : {}),
+    });
+    serverResponses.sendSuccess(res, messages.SUCCESSFUL, collections, {
+      totalPages: Math.ceil(count / limit),
+      currentPages: page,
+      count: count,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export { books, authors, tags, collections };
